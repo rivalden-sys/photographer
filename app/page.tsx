@@ -88,6 +88,12 @@ const services = [
   ["04", "Private Stories", "Small celebrations, personal milestones and lifestyle shoots photographed with discretion and taste.", "Limited bookings · documentary rhythm · curated delivery · Instagram-ready selection"],
 ];
 
+const investment = [
+  ["01", "Individual portraits", "from €150", "per hour"],
+  ["02", "Couple love story", "€180", "per hour"],
+  ["03", "Family session", "from €200", "per hour"],
+];
+
 const process = [
   ["Message", "You send a short note on Instagram: who you want to photograph, the city, the date and the feeling you want."],
   ["Planning", "Leila helps choose the place, timing and simple clothing direction so the session already has a visual mood."],
@@ -222,6 +228,7 @@ export default function Page() {
               <a href="#gallery" className="transition hover:text-[#8c6f45]">Gallery</a>
               <a href="#about" className="transition hover:text-[#8c6f45]">About</a>
               <a href="#services" className="transition hover:text-[#8c6f45]">Services</a>
+              <a href="#investment" className="transition hover:text-[#8c6f45]">Prices</a>
             </div>
             <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="shrink-0 border border-[#17130f] px-3 py-2 text-[9px] tracking-[0.18em] transition hover:bg-[#17130f] hover:text-[#f4efe6] sm:px-4 sm:text-[10px] sm:tracking-[0.26em]">DM to book</a>
           </nav>
@@ -408,6 +415,36 @@ export default function Page() {
                   <div><p className="text-[16px] leading-8 text-[#3a342d] sm:text-[18px] sm:leading-9">{description}</p><p className="mt-5 text-[10px] uppercase leading-5 tracking-[0.2em] text-[#6f6255] sm:tracking-[0.24em]">{details}</p></div>
                 </article>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="investment" className="bg-[#e8dece] px-4 py-20 sm:px-6 sm:py-28 lg:px-10 lg:py-36">
+          <div className="mx-auto max-w-[1560px]">
+            <div data-reveal className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+              <div>
+                <p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:tracking-[0.34em]">Investment</p>
+                <h2 className="font-editorial max-w-[58rem] text-[clamp(3.2rem,13vw,8.5rem)] leading-[0.88] sm:leading-[0.84]">Simple pricing for private sessions.</h2>
+              </div>
+              <p className="max-w-[38rem] text-[16px] leading-8 text-[#4f463d] sm:text-[18px] sm:leading-9">Final price depends on location, timing and the selected format. To check availability, send a direct message on Instagram.</p>
+            </div>
+
+            <div className="mt-12 border-t border-[#17130f]/15 sm:mt-14">
+              {investment.map(([index, title, price, unit]) => (
+                <article key={title} data-reveal className="grid gap-5 border-b border-[#17130f]/15 py-8 md:grid-cols-[0.18fr_1fr_0.55fr] md:items-end md:gap-10 md:py-12">
+                  <p className="text-[10px] uppercase tracking-[0.24em] text-[#8c6f45] sm:tracking-[0.3em]">{index}</p>
+                  <h3 className="font-editorial text-[clamp(2.5rem,11vw,5.4rem)] leading-[0.9] sm:leading-[0.88]">{title}</h3>
+                  <div className="md:text-right">
+                    <p className="font-editorial text-[clamp(2.6rem,10vw,5rem)] leading-none tracking-[-0.05em] text-[#17130f]">{price}</p>
+                    <p className="mt-3 text-[10px] uppercase tracking-[0.24em] text-[#6f6255]">{unit}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div data-reveal className="mt-8 grid gap-3 sm:flex sm:items-center sm:justify-between">
+              <p className="max-w-[34rem] text-[13px] leading-6 text-[#5d5146]">Prices are shown for hourly sessions. Travel, extended coverage and custom requests are discussed individually.</p>
+              <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-dark sm:w-fit">Ask for availability</a>
             </div>
           </div>
         </section>
