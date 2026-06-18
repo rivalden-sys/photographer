@@ -125,6 +125,7 @@ export default function Page() {
   const [activePhoto, setActivePhoto] = useState<Photo | null>(null);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [mobileGalleryOpen, setMobileGalleryOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const visiblePhotos = useMemo(() => {
     if (activeFilter === "all") return photos;
@@ -223,15 +224,38 @@ export default function Page() {
       <div className="font-interface">
         <header className="sticky top-0 z-50 border-b border-[#17130f]/10 bg-[#f4efe6]/94 px-4 py-3 backdrop-blur-xl sm:px-6 sm:py-4 lg:px-10">
           <nav className="mx-auto flex max-w-[1560px] items-center justify-between gap-3 text-[9px] uppercase tracking-[0.2em] sm:text-[10px] sm:tracking-[0.26em]">
-            <a href="#top" className="font-bold tracking-[0.24em] sm:tracking-[0.32em]">{studio.name}</a>
+            <a href="#top" onClick={() => setMobileMenuOpen(false)} className="min-w-0 truncate font-bold tracking-[0.16em] sm:tracking-[0.32em]">{studio.name}</a>
             <div className="hidden items-center gap-8 md:flex">
               <a href="#gallery" className="transition hover:text-[#8c6f45]">Gallery</a>
               <a href="#about" className="transition hover:text-[#8c6f45]">About</a>
               <a href="#services" className="transition hover:text-[#8c6f45]">Services</a>
               <a href="#investment" className="transition hover:text-[#8c6f45]">Prices</a>
             </div>
-            <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="shrink-0 border border-[#17130f] px-3 py-2 text-[9px] tracking-[0.18em] transition hover:bg-[#17130f] hover:text-[#f4efe6] sm:px-4 sm:text-[10px] sm:tracking-[0.26em]">DM to book</a>
+            <div className="flex shrink-0 items-center gap-2">
+              <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="border border-[#17130f] px-3 py-2 text-[9px] tracking-[0.14em] transition hover:bg-[#17130f] hover:text-[#f4efe6] sm:px-4 sm:text-[10px] sm:tracking-[0.26em]">DM to book</a>
+              <button
+                type="button"
+                aria-label="Open navigation menu"
+                aria-expanded={mobileMenuOpen}
+                onClick={() => setMobileMenuOpen((value) => !value)}
+                className="flex h-[39px] w-[43px] items-center justify-center border border-[#17130f] md:hidden"
+              >
+                <span className="grid w-5 gap-1.5">
+                  <span className={`h-px bg-[#17130f] transition ${mobileMenuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
+                  <span className={`h-px bg-[#17130f] transition ${mobileMenuOpen ? "opacity-0" : ""}`} />
+                  <span className={`h-px bg-[#17130f] transition ${mobileMenuOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
+                </span>
+              </button>
+            </div>
           </nav>
+
+          <div className={`${mobileMenuOpen ? "grid" : "hidden"} mx-auto mt-3 max-w-[1560px] gap-2 border-t border-[#17130f]/10 pt-3 text-[11px] uppercase tracking-[0.22em] md:hidden`}>
+            <a onClick={() => setMobileMenuOpen(false)} href="#gallery" className="border border-[#17130f]/12 px-4 py-4">Gallery</a>
+            <a onClick={() => setMobileMenuOpen(false)} href="#about" className="border border-[#17130f]/12 px-4 py-4">About Leila</a>
+            <a onClick={() => setMobileMenuOpen(false)} href="#services" className="border border-[#17130f]/12 px-4 py-4">Services</a>
+            <a onClick={() => setMobileMenuOpen(false)} href="#investment" className="border border-[#17130f]/12 px-4 py-4">Prices</a>
+            <a onClick={() => setMobileMenuOpen(false)} href="#booking" className="bg-[#17130f] px-4 py-4 text-[#f4efe6]">Booking</a>
+          </div>
         </header>
 
         <section id="top" className="px-4 pb-16 pt-8 sm:px-6 sm:pt-12 lg:px-10 lg:pb-24 lg:pt-16">
