@@ -58,6 +58,7 @@ const sessions: PhotoSession[] = [
 
 const ratioPattern: PhotoRatio[] = ["portrait", "tall", "square", "landscape", "portrait", "wide", "tall", "portrait", "landscape", "square"];
 const hiddenPhotoIds = new Set(["session-08-02"]);
+const mobileSelectedPhotoIds = ["session-01-01", "session-02-02", "session-03-04", "session-05-05", "session-06-03", "session-08-01"];
 
 const photos: Photo[] = sessions
   .flatMap((session) =>
@@ -117,12 +118,24 @@ export default function Page() {
   const [activeFilter, setActiveFilter] = useState<FilterId>("all");
   const [activePhoto, setActivePhoto] = useState<Photo | null>(null);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [mobileGalleryOpen, setMobileGalleryOpen] = useState(false);
 
   const visiblePhotos = useMemo(() => {
     if (activeFilter === "all") return photos;
     return photos.filter((photo) => photo.sessionId === activeFilter);
   }, [activeFilter]);
 
+  const mobilePreviewPhotos = useMemo(() => {
+    if (activeFilter !== "all") return visiblePhotos.slice(0, 6);
+
+    const selected = mobileSelectedPhotoIds
+      .map((id) => photos.find((photo) => photo.id === id))
+      .filter((photo): photo is Photo => Boolean(photo));
+
+    return selected.length ? selected : photos.slice(0, 6);
+  }, [activeFilter, visiblePhotos]);
+
+  const mobilePhotosToShow = mobileGalleryOpen ? visiblePhotos : mobilePreviewPhotos;
   const activeSession = activeFilter === "all" ? null : sessions.find((session) => session.id === activeFilter) ?? null;
 
   useEffect(() => {
@@ -140,7 +153,7 @@ export default function Page() {
 
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
-  }, [activeFilter]);
+  }, [activeFilter, mobileGalleryOpen]);
 
   useEffect(() => {
     if (!activePhoto) return;
@@ -159,6 +172,11 @@ export default function Page() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [activePhoto, visiblePhotos]);
+
+  function changeFilter(filter: FilterId) {
+    setActiveFilter(filter);
+    setMobileGalleryOpen(false);
+  }
 
   function movePhoto(direction: -1 | 1) {
     if (!activePhoto) return;
@@ -197,7 +215,7 @@ export default function Page() {
       `}</style>
 
       <div className="font-interface">
-        <header className="fixed inset-x-0 top-0 z-50 border-b border-[#17130f]/10 bg-[#f4efe6]/92 px-4 py-3 backdrop-blur-xl sm:px-6 sm:py-4 lg:px-10">
+        <header className="sticky top-0 z-50 border-b border-[#17130f]/10 bg-[#f4efe6]/94 px-4 py-3 backdrop-blur-xl sm:px-6 sm:py-4 lg:px-10">
           <nav className="mx-auto flex max-w-[1560px] items-center justify-between gap-3 text-[9px] uppercase tracking-[0.2em] sm:text-[10px] sm:tracking-[0.26em]">
             <a href="#top" className="font-bold tracking-[0.24em] sm:tracking-[0.32em]">{studio.name}</a>
             <div className="hidden items-center gap-8 md:flex">
@@ -209,7 +227,7 @@ export default function Page() {
           </nav>
         </header>
 
-        <section id="top" className="px-4 pb-16 pt-24 sm:px-6 sm:pt-28 lg:px-10 lg:pb-24 lg:pt-32">
+        <section id="top" className="px-4 pb-16 pt-8 sm:px-6 sm:pt-12 lg:px-10 lg:pb-24 lg:pt-16">
           <div className="mx-auto grid max-w-[1560px] gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-16">
             <div className="flex flex-col justify-between gap-8 lg:min-h-[calc(100vh-9rem)] lg:gap-14">
               <div data-reveal>
@@ -248,52 +266,115 @@ export default function Page() {
           </div>
         </section>
 
-        <section id="gallery" className="px-4 py-18 sm:px-6 sm:py-28 lg:px-10 lg:py-36">
+        <section id="gallery" className="px-4 py-20 sm:px-6 sm:py-28 lg:px-10 lg:py-36">
           <div className="mx-auto max-w-[1560px]">
             <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-8">
               <div data-reveal>
                 <p className="mb-4 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:mb-5 sm:tracking-[0.34em]">Gallery</p>
                 <h2 className="font-editorial max-w-[58rem] text-[clamp(3.2rem,14vw,9rem)] leading-[0.88] sm:leading-[0.82]">Soft stories from Spain.</h2>
               </div>
-              <p data-reveal className="max-w-[39rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">Browse the archive by story. The mobile gallery is built as a clean vertical scroll, with large images and direct opening on tap.</p>
+              <p data-reveal className="max-w-[39rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">Start with a short curated selection. Open the full archive only when you want to go deeper into the work.</p>
             </div>
 
-            <div className="sticky top-[57px] z-40 -mx-4 mt-8 border-y border-[#17130f]/10 bg-[#f4efe6]/94 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:top-[65px] sm:px-6 lg:-mx-10 lg:px-10">
-              <div className="mx-auto flex max-w-[1560px] items-center gap-2 overflow-x-auto hide-scrollbar sm:gap-3">
-                <button type="button" onClick={() => setActiveFilter("all")} aria-pressed={activeFilter === "all"} className={`shrink-0 border px-4 py-3 text-[10px] uppercase tracking-[0.18em] transition sm:px-5 sm:tracking-[0.24em] ${activeFilter === "all" ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>All / {photos.length}</button>
-                {sessions.map((session) => (
-                  <button key={session.id} type="button" onClick={() => setActiveFilter(session.id)} aria-pressed={activeFilter === session.id} className={`shrink-0 border px-4 py-3 text-[10px] uppercase tracking-[0.18em] transition sm:px-5 sm:tracking-[0.24em] ${activeFilter === session.id ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>Story {session.number}</button>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-7 flex flex-col gap-2 border-b border-[#17130f]/10 pb-5 sm:mt-8 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-[#8c6f45] sm:tracking-[0.28em]">{activeSession ? activeSession.note : "full archive"}</p>
-                <h3 className="font-editorial mt-2 text-[clamp(2.5rem,12vw,5.8rem)] leading-[0.92] sm:leading-[0.9]">{activeSession ? activeSession.title : "All stories"}</h3>
-              </div>
-              <p className="text-[10px] uppercase leading-5 tracking-[0.2em] text-[#6f6255] sm:tracking-[0.24em]">{visiblePhotos.length} frames · tap to open</p>
-            </div>
-
-            <div className="mt-7 columns-1 gap-4 sm:mt-8 sm:columns-2 lg:columns-3 2xl:columns-4">
-              {visiblePhotos.map((photo, index) => (
-                <article key={photo.id} data-reveal className={`mb-5 break-inside-avoid sm:mb-4 ${index % 8 === 2 ? "lg:pt-12" : ""} ${index % 11 === 5 ? "2xl:pt-20" : ""}`}>
-                  <button type="button" onClick={() => setActivePhoto(photo)} className="group block w-full text-left">
-                    <div className={`relative overflow-hidden bg-[#d9c9b4] ${getRatioClass(photo.ratio)}`}>
-                      <Image src={photo.src} alt={`${photo.sessionTitle} frame ${photo.frame}`} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover transition duration-[1100ms] ease-out group-hover:scale-[1.035]" />
-                      <div className="absolute inset-0 bg-[#17130f]/0 transition group-hover:bg-[#17130f]/14" />
-                      <div className="absolute bottom-4 left-4 right-4 hidden items-center justify-between gap-4 opacity-0 transition duration-500 group-hover:opacity-100 sm:flex">
-                        <span className="bg-[#f4efe6] px-4 py-3 text-[10px] uppercase tracking-[0.22em] text-[#17130f]">Open</span>
-                        <span className="text-[10px] uppercase tracking-[0.22em] text-[#f4efe6]">{photo.sessionNumber}.{String(photo.frame).padStart(2, "0")}</span>
-                      </div>
+            <div className="sm:hidden">
+              <div className="-mx-4 mt-8 border-y border-[#17130f]/10 bg-[#efe7da]/55 py-5">
+                <div className="px-4">
+                  <div className="mb-4 flex items-end justify-between gap-4">
+                    <div>
+                      <p className="text-[10px] uppercase tracking-[0.26em] text-[#8c6f45]">Stories</p>
+                      <p className="mt-2 text-[13px] leading-5 text-[#5d5146]">Swipe to choose a story →</p>
                     </div>
-                    <div className="flex items-start justify-between gap-5 border-b border-[#17130f]/10 py-4">
-                      <div><h4 className="font-editorial text-3xl leading-none tracking-[-0.04em]">{photo.sessionTitle}</h4><p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#6f6255] sm:tracking-[0.22em]">Frame {String(photo.frame).padStart(2, "0")}</p></div>
-                      <p className="pt-1 text-right text-[10px] uppercase leading-5 tracking-[0.2em] text-[#8c6f45] sm:tracking-[0.22em]">{photo.location}<br />{photo.year}</p>
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-[#6f6255]">{sessions.length} sets</p>
+                  </div>
+                </div>
+                <div className="flex gap-3 overflow-x-auto px-4 hide-scrollbar">
+                  <button type="button" onClick={() => changeFilter("all")} className={`w-[132px] shrink-0 text-left ${activeFilter === "all" ? "opacity-100" : "opacity-70"}`}>
+                    <div className={`relative aspect-[4/5] overflow-hidden border ${activeFilter === "all" ? "border-[#17130f]" : "border-[#17130f]/12"}`}>
+                      <Image src="/photos/session-01/01.jpg" alt="All selected work" fill sizes="132px" className="object-cover" />
+                      <div className="absolute inset-0 bg-[#17130f]/25" />
+                      <div className="absolute bottom-3 left-3 right-3 text-[#f4efe6]"><p className="text-[10px] uppercase tracking-[0.2em]">All</p><p className="mt-1 text-[11px] uppercase tracking-[0.14em]">Selected</p></div>
                     </div>
                   </button>
-                </article>
-              ))}
+                  {sessions.map((session) => (
+                    <button key={session.id} type="button" onClick={() => changeFilter(session.id)} className={`w-[132px] shrink-0 text-left ${activeFilter === session.id ? "opacity-100" : "opacity-70"}`}>
+                      <div className={`relative aspect-[4/5] overflow-hidden border ${activeFilter === session.id ? "border-[#17130f]" : "border-[#17130f]/12"}`}>
+                        <Image src={`/photos/${session.id}/01.jpg`} alt={`${session.title} cover`} fill sizes="132px" className="object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/72 via-[#17130f]/12 to-transparent" />
+                        <div className="absolute bottom-3 left-3 right-3 text-[#f4efe6]"><p className="text-[10px] uppercase tracking-[0.2em]">Story {session.number}</p><p className="mt-1 line-clamp-2 text-[13px] leading-4">{session.title}</p></div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-2 border-b border-[#17130f]/10 pb-5">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-[#8c6f45]">{activeSession ? activeSession.note : "selected work"}</p>
+                <h3 className="font-editorial mt-1 text-[clamp(2.5rem,12vw,5.8rem)] leading-[0.92]">{activeSession ? activeSession.title : "Selected frames"}</h3>
+                <p className="text-[10px] uppercase leading-5 tracking-[0.2em] text-[#6f6255]">{mobileGalleryOpen ? `${visiblePhotos.length} frames · full archive` : `${mobilePhotosToShow.length} frames · short preview`}</p>
+              </div>
+
+              <div className="mt-7 columns-1 gap-4">
+                {mobilePhotosToShow.map((photo) => (
+                  <article key={photo.id} data-reveal className="mb-5 break-inside-avoid">
+                    <button type="button" onClick={() => setActivePhoto(photo)} className="block w-full text-left">
+                      <div className={`relative overflow-hidden bg-[#d9c9b4] ${getRatioClass(photo.ratio)}`}>
+                        <Image src={photo.src} alt={`${photo.sessionTitle} frame ${photo.frame}`} fill sizes="100vw" className="object-cover" />
+                      </div>
+                      <div className="flex items-start justify-between gap-5 border-b border-[#17130f]/10 py-4">
+                        <div><h4 className="font-editorial text-3xl leading-none tracking-[-0.04em]">{photo.sessionTitle}</h4><p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#6f6255]">Frame {String(photo.frame).padStart(2, "0")}</p></div>
+                        <p className="pt-1 text-right text-[10px] uppercase leading-5 tracking-[0.2em] text-[#8c6f45]">{photo.location}<br />{photo.year}</p>
+                      </div>
+                    </button>
+                  </article>
+                ))}
+              </div>
+
+              <div className="mt-8 grid gap-3 border-t border-[#17130f]/10 pt-6">
+                <button type="button" onClick={() => setMobileGalleryOpen((value) => !value)} className="btn-dark">
+                  {mobileGalleryOpen ? "Show short preview" : `Open full gallery · ${visiblePhotos.length} frames`}
+                </button>
+                <a href="#about" className="btn-outline">Continue to About Leila</a>
+              </div>
+            </div>
+
+            <div className="hidden sm:block">
+              <div className="sticky top-[65px] z-40 -mx-6 mt-10 border-y border-[#17130f]/10 bg-[#f4efe6]/94 px-6 py-3 backdrop-blur-xl lg:-mx-10 lg:px-10">
+                <div className="mx-auto flex max-w-[1560px] items-center gap-3 overflow-x-auto hide-scrollbar">
+                  <button type="button" onClick={() => changeFilter("all")} aria-pressed={activeFilter === "all"} className={`shrink-0 border px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition ${activeFilter === "all" ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>All / {photos.length}</button>
+                  {sessions.map((session) => (
+                    <button key={session.id} type="button" onClick={() => changeFilter(session.id)} aria-pressed={activeFilter === session.id} className={`shrink-0 border px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition ${activeFilter === session.id ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>Story {session.number}</button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-2 border-b border-[#17130f]/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.28em] text-[#8c6f45]">{activeSession ? activeSession.note : "full archive"}</p>
+                  <h3 className="font-editorial mt-2 text-[clamp(2.6rem,6vw,5.8rem)] leading-[0.9]">{activeSession ? activeSession.title : "All stories"}</h3>
+                </div>
+                <p className="text-[10px] uppercase leading-5 tracking-[0.24em] text-[#6f6255]">{visiblePhotos.length} frames · tap to open</p>
+              </div>
+
+              <div className="mt-8 columns-2 gap-4 lg:columns-3 2xl:columns-4">
+                {visiblePhotos.map((photo, index) => (
+                  <article key={photo.id} data-reveal className={`mb-4 break-inside-avoid ${index % 8 === 2 ? "lg:pt-12" : ""} ${index % 11 === 5 ? "2xl:pt-20" : ""}`}>
+                    <button type="button" onClick={() => setActivePhoto(photo)} className="group block w-full text-left">
+                      <div className={`relative overflow-hidden bg-[#d9c9b4] ${getRatioClass(photo.ratio)}`}>
+                        <Image src={photo.src} alt={`${photo.sessionTitle} frame ${photo.frame}`} fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover transition duration-[1100ms] ease-out group-hover:scale-[1.035]" />
+                        <div className="absolute inset-0 bg-[#17130f]/0 transition group-hover:bg-[#17130f]/14" />
+                        <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-4 opacity-0 transition duration-500 group-hover:opacity-100">
+                          <span className="bg-[#f4efe6] px-4 py-3 text-[10px] uppercase tracking-[0.22em] text-[#17130f]">Open</span>
+                          <span className="text-[10px] uppercase tracking-[0.22em] text-[#f4efe6]">{photo.sessionNumber}.{String(photo.frame).padStart(2, "0")}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-start justify-between gap-5 border-b border-[#17130f]/10 py-4">
+                        <div><h4 className="font-editorial text-3xl leading-none tracking-[-0.04em]">{photo.sessionTitle}</h4><p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-[#6f6255]">Frame {String(photo.frame).padStart(2, "0")}</p></div>
+                        <p className="pt-1 text-right text-[10px] uppercase leading-5 tracking-[0.22em] text-[#8c6f45]">{photo.location}<br />{photo.year}</p>
+                      </div>
+                    </button>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
