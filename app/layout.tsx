@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Maison Photo — Photographer Portfolio",
-  description: "Premium photography landing page with private booking and curated gallery.",
+  title: "Leila Photography",
+  description: "Valencia photographer for portraits, couples and families.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
