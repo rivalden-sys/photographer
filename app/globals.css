@@ -26,3 +26,15 @@ select,
 textarea {
   font: inherit;
 }
+
+@media (max-width: 640px) {
+  #gallery article button > div:first-child img {
+    object-position: center 22% !important;
+  }
+
+  #top img,
+  #about img,
+  #booking img {
+    object-position: center 28% !important;
+  }
+}
