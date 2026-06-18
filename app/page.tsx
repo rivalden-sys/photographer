@@ -40,7 +40,6 @@ type Photo = {
 
 const studio = {
   name: "Leila Photography",
-  shortName: "Leila",
   city: "Valencia / Spain",
   instagram: "@photographer_leila_",
   instagramUrl: "https://www.instagram.com/photographer_leila_/",
@@ -58,25 +57,28 @@ const sessions: PhotoSession[] = [
 ];
 
 const ratioPattern: PhotoRatio[] = ["portrait", "tall", "square", "landscape", "portrait", "wide", "tall", "portrait", "landscape", "square"];
+const hiddenPhotoIds = new Set(["session-08-02"]);
 
-const photos: Photo[] = sessions.flatMap((session) =>
-  Array.from({ length: session.count }, (_, index) => {
-    const frame = index + 1;
-    const file = String(frame).padStart(2, "0");
+const photos: Photo[] = sessions
+  .flatMap((session) =>
+    Array.from({ length: session.count }, (_, index) => {
+      const frame = index + 1;
+      const file = String(frame).padStart(2, "0");
 
-    return {
-      id: `${session.id}-${file}`,
-      sessionId: session.id,
-      sessionNumber: session.number,
-      sessionTitle: session.title,
-      src: `/photos/${session.id}/${file}.jpg`,
-      frame,
-      ratio: ratioPattern[index % ratioPattern.length],
-      location: session.location,
-      year: session.year,
-    };
-  }),
-);
+      return {
+        id: `${session.id}-${file}`,
+        sessionId: session.id,
+        sessionNumber: session.number,
+        sessionTitle: session.title,
+        src: `/photos/${session.id}/${file}.jpg`,
+        frame,
+        ratio: ratioPattern[index % ratioPattern.length],
+        location: session.location,
+        year: session.year,
+      };
+    }),
+  )
+  .filter((photo) => !hiddenPhotoIds.has(photo.id));
 
 const services = [
   ["01", "Portraits", "Soft, minimal portraits for women who want to feel natural, elegant and present in the frame.", "Valencia or nearby locations · light direction · refined edit · private gallery"],
@@ -344,16 +346,20 @@ export default function Page() {
 
         <section id="booking" className="px-4 pb-10 sm:px-6 lg:px-10">
           <div className="mx-auto max-w-[1560px] bg-[#17130f] px-5 py-10 text-[#f4efe6] sm:px-8 sm:py-14 lg:px-14 lg:py-20">
-            <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-              <div data-reveal>
+            <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+              <div data-reveal className="flex flex-col justify-center">
                 <p className="mb-6 text-[10px] uppercase tracking-[0.34em] text-[#c7ad82]">Booking open</p>
                 <h2 className="font-editorial text-[clamp(3.8rem,9vw,9rem)] leading-[0.82]">Write to Leila and choose your date.</h2>
                 <p className="mt-8 max-w-[34rem] text-[16px] leading-8 text-[#d9c9b4] sm:text-[18px] sm:leading-9">Send a direct message on Instagram with the session type, city, preferred date and the atmosphere you want. Leila will reply with availability and next steps.</p>
               </div>
-              <div data-reveal className="flex flex-col justify-end gap-5 border border-[#f4efe6]/15 p-6 sm:p-8">
-                <p className="text-[10px] uppercase leading-5 tracking-[0.28em] text-[#c7ad82]">DM to book · portraits · couples · families</p>
-                <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center bg-[#f4efe6] px-7 text-[10px] uppercase tracking-[0.3em] text-[#17130f] transition hover:bg-[#c7ad82]">Book via Instagram</a>
-                <div className="grid gap-3 text-[10px] uppercase tracking-[0.26em] text-[#d9c9b4]"><a href={studio.instagramUrl} target="_blank" rel="noreferrer">{studio.instagram}</a><p>{studio.city}</p></div>
+              <div data-reveal className="relative min-h-[460px] overflow-hidden bg-[#2a2018]">
+                <Image src="/photos/session-05/01.jpg" alt="Leila family session booking preview" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover opacity-75" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/90 via-[#17130f]/30 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
+                  <p className="mb-5 text-[10px] uppercase leading-5 tracking-[0.28em] text-[#c7ad82]">DM to book · portraits · couples · families</p>
+                  <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-14 w-full items-center justify-center bg-[#f4efe6] px-7 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#17130f] transition hover:bg-white sm:w-auto">Book via Instagram</a>
+                  <div className="mt-6 grid gap-3 text-[10px] uppercase tracking-[0.26em] text-[#f4efe6]"><a href={studio.instagramUrl} target="_blank" rel="noreferrer">{studio.instagram}</a><p>{studio.city}</p></div>
+                </div>
               </div>
             </div>
           </div>
