@@ -83,7 +83,7 @@ const photos: Photo[] = sessions
 
 const services = [
   ["01", "Portraits", "Soft, minimal portraits for women who want to feel natural, elegant and present in the frame.", "Valencia or nearby locations · light direction · refined edit · private gallery"],
-  ["02", "Couples", "Intimate couple sessions built around real emotion, movement, touch and quiet cinematic light.", "Beach, city or home session · styling notes · natural posing · full gallery"],
+  ["02", "Couples", "Intimate love stories built around real emotion, movement, touch and quiet cinematic light.", "Beach, city or home session · styling notes · natural posing · full gallery"],
   ["03", "Families", "Family stories with warmth and space: children, parents, small gestures and honest connection.", "Outdoor or home session · gentle direction · timeless color · web and print files"],
   ["04", "Private Stories", "Small celebrations, personal milestones and lifestyle shoots photographed with discretion and taste.", "Limited bookings · documentary rhythm · curated delivery · Instagram-ready selection"],
 ];
@@ -95,10 +95,10 @@ const investment = [
 ];
 
 const process = [
-  ["Message", "You send a short note on Instagram: who you want to photograph, the city, the date and the feeling you want."],
-  ["Planning", "Leila helps choose the place, timing and simple clothing direction so the session already has a visual mood."],
-  ["Shooting", "The session is calm and gently directed. No forced posing, no pressure, just real emotion with better composition."],
-  ["Editing", "The gallery is edited with soft color, natural skin and a timeless visual style that does not feel artificial."],
+  ["Message", "Send a short Instagram note: session type, city, preferred date and the feeling you want."],
+  ["Planning", "Leila helps choose the place, timing and simple clothing direction before the session."],
+  ["Shooting", "The session is calm and gently directed. No forced posing, no pressure."],
+  ["Editing", "The gallery is edited with soft color, natural skin and timeless visual rhythm."],
   ["Delivery", "You receive a private gallery with selected images ready for personal use, Instagram and print."],
 ];
 
@@ -106,6 +106,14 @@ const testimonials = [
   ["The photos feel very real, but also elegant. We did not feel like we had to perform for the camera.", "Client review", "couple session"],
   ["Leila sees small emotions and turns them into something soft and timeless. The gallery felt very personal.", "Client review", "family story"],
   ["I usually feel uncomfortable in portraits, but this session was calm and easy. The result looks like me, only better lit.", "Client review", "portrait session"],
+];
+
+const navItems = [
+  ["Gallery", "#gallery"],
+  ["About", "#about"],
+  ["Services", "#services"],
+  ["Prices", "#investment"],
+  ["Booking", "#booking"],
 ];
 
 function getRatioClass(ratio: PhotoRatio) {
@@ -226,20 +234,13 @@ export default function Page() {
           <nav className="mx-auto flex max-w-[1560px] items-center justify-between gap-3 text-[9px] uppercase tracking-[0.2em] sm:text-[10px] sm:tracking-[0.26em]">
             <a href="#top" onClick={() => setMobileMenuOpen(false)} className="min-w-0 truncate font-bold tracking-[0.16em] sm:tracking-[0.32em]">{studio.name}</a>
             <div className="hidden items-center gap-8 md:flex">
-              <a href="#gallery" className="transition hover:text-[#8c6f45]">Gallery</a>
-              <a href="#about" className="transition hover:text-[#8c6f45]">About</a>
-              <a href="#services" className="transition hover:text-[#8c6f45]">Services</a>
-              <a href="#investment" className="transition hover:text-[#8c6f45]">Prices</a>
+              {navItems.slice(0, 4).map(([label, href]) => (
+                <a key={href} href={href} className="transition hover:text-[#8c6f45]">{label}</a>
+              ))}
             </div>
             <div className="flex shrink-0 items-center gap-2">
               <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="border border-[#17130f] px-3 py-2 text-[9px] tracking-[0.14em] transition hover:bg-[#17130f] hover:text-[#f4efe6] sm:px-4 sm:text-[10px] sm:tracking-[0.26em]">DM to book</a>
-              <button
-                type="button"
-                aria-label="Open navigation menu"
-                aria-expanded={mobileMenuOpen}
-                onClick={() => setMobileMenuOpen((value) => !value)}
-                className="flex h-[39px] w-[43px] items-center justify-center border border-[#17130f] md:hidden"
-              >
+              <button type="button" aria-label="Open navigation menu" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((value) => !value)} className="flex h-[39px] w-[43px] items-center justify-center border border-[#17130f] md:hidden">
                 <span className="grid w-5 gap-1.5">
                   <span className={`h-px bg-[#17130f] transition ${mobileMenuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
                   <span className={`h-px bg-[#17130f] transition ${mobileMenuOpen ? "opacity-0" : ""}`} />
@@ -250,42 +251,35 @@ export default function Page() {
           </nav>
 
           <div className={`${mobileMenuOpen ? "grid" : "hidden"} mx-auto mt-3 max-w-[1560px] gap-2 border-t border-[#17130f]/10 pt-3 text-[11px] uppercase tracking-[0.22em] md:hidden`}>
-            <a onClick={() => setMobileMenuOpen(false)} href="#gallery" className="border border-[#17130f]/12 px-4 py-4">Gallery</a>
-            <a onClick={() => setMobileMenuOpen(false)} href="#about" className="border border-[#17130f]/12 px-4 py-4">About Leila</a>
-            <a onClick={() => setMobileMenuOpen(false)} href="#services" className="border border-[#17130f]/12 px-4 py-4">Services</a>
-            <a onClick={() => setMobileMenuOpen(false)} href="#investment" className="border border-[#17130f]/12 px-4 py-4">Prices</a>
-            <a onClick={() => setMobileMenuOpen(false)} href="#booking" className="bg-[#17130f] px-4 py-4 text-[#f4efe6]">Booking</a>
+            {navItems.map(([label, href]) => (
+              <a key={href} onClick={() => setMobileMenuOpen(false)} href={href} className={`${label === "Booking" ? "bg-[#17130f] text-[#f4efe6]" : "border border-[#17130f]/12"} px-4 py-4`}>{label}</a>
+            ))}
           </div>
         </header>
 
-        <section id="top" className="px-4 pb-16 pt-8 sm:px-6 sm:pt-12 lg:px-10 lg:pb-24 lg:pt-16">
-          <div className="mx-auto grid max-w-[1560px] gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-16">
-            <div className="flex flex-col justify-between gap-8 lg:min-h-[calc(100vh-9rem)] lg:gap-14">
-              <div data-reveal>
-                <p className="mb-5 max-w-[34rem] text-[10px] uppercase leading-5 tracking-[0.24em] text-[#6f6255] sm:mb-6 sm:tracking-[0.34em]">Photographer in Spain · Valencia · portraits · couples · families</p>
-                <h1 className="font-editorial max-w-[52rem] text-[clamp(3.55rem,17vw,13rem)] leading-[0.84] sm:leading-[0.78]">Real emotions, timeless style.</h1>
-              </div>
-              <div data-reveal>
-                <p className="max-w-[34rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">Soft cinematic photography in Valencia for people who want honest emotion, natural direction and images that feel elegant without being staged.</p>
-                <div className="mt-7 grid gap-3 sm:flex sm:flex-row lg:flex-col">
-                  <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-dark">Book via Instagram</a>
-                  <a href="#gallery" className="btn-outline">View gallery</a>
+        <section id="top" className="px-4 pb-10 pt-4 sm:px-6 sm:pb-16 lg:px-10 lg:pb-24">
+          <div className="mx-auto max-w-[1560px]">
+            <div data-reveal className="relative min-h-[calc(100svh-86px)] overflow-hidden bg-[#17130f] sm:min-h-[760px] lg:min-h-[calc(100vh-6.5rem)]">
+              <Image src="/photos/session-01/01.jpg" alt="Leila Photography in Valencia" fill priority sizes="100vw" className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/88 via-[#17130f]/24 to-[#17130f]/8" />
+              <div className="absolute inset-x-0 bottom-0 p-5 text-[#f4efe6] sm:p-8 lg:p-12">
+                <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
+                  <div>
+                    <p className="mb-4 text-[10px] uppercase leading-5 tracking-[0.26em] text-[#c7ad82] sm:mb-6 sm:tracking-[0.34em]">Photographer in Valencia · portraits · couples · families</p>
+                    <h1 className="font-editorial max-w-[62rem] text-[clamp(4rem,17vw,13rem)] leading-[0.78]">Real emotion. Timeless light.</h1>
+                  </div>
+                  <div className="lg:pb-3">
+                    <p className="max-w-[35rem] text-[16px] leading-8 text-[#efe7da] sm:text-[19px] sm:leading-9">Soft cinematic photography for people who want their story to feel honest, elegant and alive.</p>
+                    <div className="mt-7 grid gap-3 sm:flex sm:flex-row">
+                      <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-light">Book via Instagram</a>
+                      <a href="#gallery" className="btn-ghost-dark">View gallery</a>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div data-reveal className="grid gap-3 sm:grid-cols-[1.1fr_0.7fr] sm:gap-4 lg:min-h-[calc(100vh-9rem)]">
-              <div className="relative min-h-[68svh] overflow-hidden bg-[#d9c9b4] sm:min-h-[620px] lg:min-h-0">
-                <Image src="/photos/session-01/01.jpg" alt="Leila Photography couple session in Valencia" fill priority sizes="(max-width: 768px) 100vw, 58vw" className="object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/42 via-transparent to-transparent" />
-                <div className="absolute bottom-5 left-5 right-5 flex justify-between gap-6 text-[#f4efe6]">
-                  <p className="max-w-[14rem] text-[10px] uppercase leading-5 tracking-[0.22em] sm:tracking-[0.28em]">Portraits · Couples · Families</p>
-                  <p className="hidden text-[10px] uppercase tracking-[0.28em] sm:block">Valencia</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:grid-rows-[0.74fr_1fr] sm:gap-4">
-                <div className="relative aspect-[4/5] overflow-hidden bg-[#d9c9b4] sm:aspect-auto"><Image src="/photos/session-07/01.jpg" alt="Leila portrait" fill sizes="(max-width: 640px) 50vw, 24vw" className="object-cover" /></div>
-                <div className="relative aspect-[4/5] overflow-hidden bg-[#d9c9b4] sm:aspect-auto"><Image src="/photos/session-08/01.jpg" alt="Couple session on the coast" fill sizes="(max-width: 640px) 50vw, 24vw" className="object-cover" /></div>
+              <div className="absolute right-6 top-6 hidden w-[18rem] grid-cols-2 gap-3 lg:grid">
+                <div className="relative aspect-[4/5] overflow-hidden border border-[#f4efe6]/20"><Image src="/photos/session-07/01.jpg" alt="Leila portrait" fill sizes="18rem" className="object-cover" /></div>
+                <div className="relative mt-16 aspect-[4/5] overflow-hidden border border-[#f4efe6]/20"><Image src="/photos/session-08/01.jpg" alt="Coast story" fill sizes="18rem" className="object-cover" /></div>
               </div>
             </div>
           </div>
@@ -311,28 +305,17 @@ export default function Page() {
               <div className="-mx-4 mt-8 border-y border-[#17130f]/10 bg-[#efe7da]/55 py-5">
                 <div className="px-4">
                   <div className="mb-4 flex items-end justify-between gap-4">
-                    <div>
-                      <p className="text-[10px] uppercase tracking-[0.26em] text-[#8c6f45]">Stories</p>
-                      <p className="mt-2 text-[13px] leading-5 text-[#5d5146]">Swipe to choose a story →</p>
-                    </div>
+                    <div><p className="text-[10px] uppercase tracking-[0.26em] text-[#8c6f45]">Stories</p><p className="mt-2 text-[13px] leading-5 text-[#5d5146]">Swipe to choose a story →</p></div>
                     <p className="text-[10px] uppercase tracking-[0.18em] text-[#6f6255]">{sessions.length} sets</p>
                   </div>
                 </div>
                 <div className="flex gap-3 overflow-x-auto px-4 hide-scrollbar">
                   <button type="button" onClick={() => changeFilter("all")} className={`w-[132px] shrink-0 text-left ${activeFilter === "all" ? "opacity-100" : "opacity-70"}`}>
-                    <div className={`relative aspect-[4/5] overflow-hidden border ${activeFilter === "all" ? "border-[#17130f]" : "border-[#17130f]/12"}`}>
-                      <Image src="/photos/session-01/01.jpg" alt="All selected work" fill sizes="132px" className="object-cover" />
-                      <div className="absolute inset-0 bg-[#17130f]/25" />
-                      <div className="absolute bottom-3 left-3 right-3 text-[#f4efe6]"><p className="text-[10px] uppercase tracking-[0.2em]">All</p><p className="mt-1 text-[11px] uppercase tracking-[0.14em]">Selected</p></div>
-                    </div>
+                    <div className={`relative aspect-[4/5] overflow-hidden border ${activeFilter === "all" ? "border-[#17130f]" : "border-[#17130f]/12"}`}><Image src="/photos/session-01/01.jpg" alt="All selected work" fill sizes="132px" className="object-cover" /><div className="absolute inset-0 bg-[#17130f]/25" /><div className="absolute bottom-3 left-3 right-3 text-[#f4efe6]"><p className="text-[10px] uppercase tracking-[0.2em]">All</p><p className="mt-1 text-[11px] uppercase tracking-[0.14em]">Selected</p></div></div>
                   </button>
                   {sessions.map((session) => (
                     <button key={session.id} type="button" onClick={() => changeFilter(session.id)} className={`w-[132px] shrink-0 text-left ${activeFilter === session.id ? "opacity-100" : "opacity-70"}`}>
-                      <div className={`relative aspect-[4/5] overflow-hidden border ${activeFilter === session.id ? "border-[#17130f]" : "border-[#17130f]/12"}`}>
-                        <Image src={`/photos/${session.id}/01.jpg`} alt={`${session.title} cover`} fill sizes="132px" className="object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/72 via-[#17130f]/12 to-transparent" />
-                        <div className="absolute bottom-3 left-3 right-3 text-[#f4efe6]"><p className="text-[10px] uppercase tracking-[0.2em]">Story {session.number}</p><p className="mt-1 line-clamp-2 text-[13px] leading-4">{session.title}</p></div>
-                      </div>
+                      <div className={`relative aspect-[4/5] overflow-hidden border ${activeFilter === session.id ? "border-[#17130f]" : "border-[#17130f]/12"}`}><Image src={`/photos/${session.id}/01.jpg`} alt={`${session.title} cover`} fill sizes="132px" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/72 via-[#17130f]/12 to-transparent" /><div className="absolute bottom-3 left-3 right-3 text-[#f4efe6]"><p className="text-[10px] uppercase tracking-[0.2em]">Story {session.number}</p><p className="mt-1 text-[13px] leading-4">{session.title}</p></div></div>
                     </button>
                   ))}
                 </div>
@@ -348,60 +331,30 @@ export default function Page() {
                 {mobilePhotosToShow.map((photo) => (
                   <article key={photo.id} data-reveal className="mb-5 break-inside-avoid">
                     <button type="button" onClick={() => setActivePhoto(photo)} className="block w-full text-left">
-                      <div className={`relative overflow-hidden bg-[#d9c9b4] ${getRatioClass(photo.ratio)}`}>
-                        <Image src={photo.src} alt={`${photo.sessionTitle} frame ${photo.frame}`} fill sizes="100vw" className="object-cover" />
-                      </div>
-                      <div className="flex items-start justify-between gap-5 border-b border-[#17130f]/10 py-4">
-                        <div><h4 className="font-editorial text-3xl leading-none tracking-[-0.04em]">{photo.sessionTitle}</h4><p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#6f6255]">Frame {String(photo.frame).padStart(2, "0")}</p></div>
-                        <p className="pt-1 text-right text-[10px] uppercase leading-5 tracking-[0.2em] text-[#8c6f45]">{photo.location}<br />{photo.year}</p>
-                      </div>
+                      <div className={`relative overflow-hidden bg-[#d9c9b4] ${getRatioClass(photo.ratio)}`}><Image src={photo.src} alt={`${photo.sessionTitle} frame ${photo.frame}`} fill sizes="100vw" className="object-cover" /></div>
+                      <div className="flex items-start justify-between gap-5 border-b border-[#17130f]/10 py-4"><div><h4 className="font-editorial text-3xl leading-none tracking-[-0.04em]">{photo.sessionTitle}</h4><p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#6f6255]">Frame {String(photo.frame).padStart(2, "0")}</p></div><p className="pt-1 text-right text-[10px] uppercase leading-5 tracking-[0.2em] text-[#8c6f45]">{photo.location}<br />{photo.year}</p></div>
                     </button>
                   </article>
                 ))}
               </div>
 
-              <div className="mt-8 grid gap-3 border-t border-[#17130f]/10 pt-6">
-                <button type="button" onClick={() => setMobileGalleryOpen((value) => !value)} className="btn-dark">
-                  {mobileGalleryOpen ? "Show short preview" : `Open full gallery · ${visiblePhotos.length} frames`}
-                </button>
-                <a href="#about" className="btn-outline">Continue to About Leila</a>
-              </div>
+              <div className="mt-8 grid gap-3 border-t border-[#17130f]/10 pt-6"><button type="button" onClick={() => setMobileGalleryOpen((value) => !value)} className="btn-dark">{mobileGalleryOpen ? "Show short preview" : `Open full gallery · ${visiblePhotos.length} frames`}</button><a href="#about" className="btn-outline">Continue to About Leila</a></div>
             </div>
 
             <div className="hidden sm:block">
               <div className="sticky top-[65px] z-40 -mx-6 mt-10 border-y border-[#17130f]/10 bg-[#f4efe6]/94 px-6 py-3 backdrop-blur-xl lg:-mx-10 lg:px-10">
                 <div className="mx-auto flex max-w-[1560px] items-center gap-3 overflow-x-auto hide-scrollbar">
                   <button type="button" onClick={() => changeFilter("all")} aria-pressed={activeFilter === "all"} className={`shrink-0 border px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition ${activeFilter === "all" ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>All / {photos.length}</button>
-                  {sessions.map((session) => (
-                    <button key={session.id} type="button" onClick={() => changeFilter(session.id)} aria-pressed={activeFilter === session.id} className={`shrink-0 border px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition ${activeFilter === session.id ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>Story {session.number}</button>
-                  ))}
+                  {sessions.map((session) => (<button key={session.id} type="button" onClick={() => changeFilter(session.id)} aria-pressed={activeFilter === session.id} className={`shrink-0 border px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition ${activeFilter === session.id ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>Story {session.number}</button>))}
                 </div>
               </div>
-
-              <div className="mt-8 flex flex-col gap-2 border-b border-[#17130f]/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.28em] text-[#8c6f45]">{activeSession ? activeSession.note : "full archive"}</p>
-                  <h3 className="font-editorial mt-2 text-[clamp(2.6rem,6vw,5.8rem)] leading-[0.9]">{activeSession ? activeSession.title : "All stories"}</h3>
-                </div>
-                <p className="text-[10px] uppercase leading-5 tracking-[0.24em] text-[#6f6255]">{visiblePhotos.length} frames · tap to open</p>
-              </div>
-
+              <div className="mt-8 flex flex-col gap-2 border-b border-[#17130f]/10 pb-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-[10px] uppercase tracking-[0.28em] text-[#8c6f45]">{activeSession ? activeSession.note : "full archive"}</p><h3 className="font-editorial mt-2 text-[clamp(2.6rem,6vw,5.8rem)] leading-[0.9]">{activeSession ? activeSession.title : "All stories"}</h3></div><p className="text-[10px] uppercase leading-5 tracking-[0.24em] text-[#6f6255]">{visiblePhotos.length} frames · tap to open</p></div>
               <div className="mt-8 columns-2 gap-4 lg:columns-3 2xl:columns-4">
                 {visiblePhotos.map((photo, index) => (
                   <article key={photo.id} data-reveal className={`mb-4 break-inside-avoid ${index % 8 === 2 ? "lg:pt-12" : ""} ${index % 11 === 5 ? "2xl:pt-20" : ""}`}>
                     <button type="button" onClick={() => setActivePhoto(photo)} className="group block w-full text-left">
-                      <div className={`relative overflow-hidden bg-[#d9c9b4] ${getRatioClass(photo.ratio)}`}>
-                        <Image src={photo.src} alt={`${photo.sessionTitle} frame ${photo.frame}`} fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover transition duration-[1100ms] ease-out group-hover:scale-[1.035]" />
-                        <div className="absolute inset-0 bg-[#17130f]/0 transition group-hover:bg-[#17130f]/14" />
-                        <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-4 opacity-0 transition duration-500 group-hover:opacity-100">
-                          <span className="bg-[#f4efe6] px-4 py-3 text-[10px] uppercase tracking-[0.22em] text-[#17130f]">Open</span>
-                          <span className="text-[10px] uppercase tracking-[0.22em] text-[#f4efe6]">{photo.sessionNumber}.{String(photo.frame).padStart(2, "0")}</span>
-                        </div>
-                      </div>
-                      <div className="flex items-start justify-between gap-5 border-b border-[#17130f]/10 py-4">
-                        <div><h4 className="font-editorial text-3xl leading-none tracking-[-0.04em]">{photo.sessionTitle}</h4><p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-[#6f6255]">Frame {String(photo.frame).padStart(2, "0")}</p></div>
-                        <p className="pt-1 text-right text-[10px] uppercase leading-5 tracking-[0.22em] text-[#8c6f45]">{photo.location}<br />{photo.year}</p>
-                      </div>
+                      <div className={`relative overflow-hidden bg-[#d9c9b4] ${getRatioClass(photo.ratio)}`}><Image src={photo.src} alt={`${photo.sessionTitle} frame ${photo.frame}`} fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover transition duration-[1100ms] ease-out group-hover:scale-[1.035]" /><div className="absolute inset-0 bg-[#17130f]/0 transition group-hover:bg-[#17130f]/14" /><div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-4 opacity-0 transition duration-500 group-hover:opacity-100"><span className="bg-[#f4efe6] px-4 py-3 text-[10px] uppercase tracking-[0.22em] text-[#17130f]">Open</span><span className="text-[10px] uppercase tracking-[0.22em] text-[#f4efe6]">{photo.sessionNumber}.{String(photo.frame).padStart(2, "0")}</span></div></div>
+                      <div className="flex items-start justify-between gap-5 border-b border-[#17130f]/10 py-4"><div><h4 className="font-editorial text-3xl leading-none tracking-[-0.04em]">{photo.sessionTitle}</h4><p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-[#6f6255]">Frame {String(photo.frame).padStart(2, "0")}</p></div><p className="pt-1 text-right text-[10px] uppercase leading-5 tracking-[0.22em] text-[#8c6f45]">{photo.location}<br />{photo.year}</p></div>
                     </button>
                   </article>
                 ))}
@@ -412,133 +365,39 @@ export default function Page() {
 
         <section id="about" className="bg-[#17130f] px-4 py-20 text-[#f4efe6] sm:px-6 sm:py-28 lg:px-10 lg:py-36">
           <div className="mx-auto grid max-w-[1560px] gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-20">
-            <div data-reveal>
-              <div className="relative aspect-[4/5] overflow-hidden bg-[#3a342d]"><Image src="/photos/session-07/01.jpg" alt="Leila photographer portrait" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover opacity-95" /></div>
-              <p className="mt-5 max-w-[26rem] text-[10px] uppercase leading-5 tracking-[0.22em] text-[#d9c9b4] sm:tracking-[0.28em]">Photographer in Valencia · portraits · couples · families</p>
-            </div>
-            <div data-reveal className="flex flex-col justify-center">
-              <p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#c7ad82] sm:mb-6 sm:tracking-[0.34em]">About Leila</p>
-              <h2 className="font-editorial text-[clamp(3.2rem,13vw,8.5rem)] leading-[0.88] sm:leading-[0.84]">Real emotion without forced posing.</h2>
-              <div className="mt-8 grid gap-6 text-[16px] leading-8 text-[#d9c9b4] sm:mt-10 sm:text-[18px] sm:leading-9">
-                <p>Leila is a photographer based in Valencia, Spain, working with portraits, couples and families. Her work is built around soft direction, natural gestures and a timeless visual style.</p>
-                <p>The sessions are calm and personal. The goal is not to make people look different, but to show their closeness, beauty and emotion with better light, better timing and better composition.</p>
-              </div>
-              <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-ghost-dark mt-9 sm:mt-10 sm:w-fit">Open Instagram</a>
-            </div>
+            <div data-reveal><div className="relative aspect-[4/5] overflow-hidden bg-[#3a342d]"><Image src="/photos/session-07/01.jpg" alt="Leila photographer portrait" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover opacity-95" /></div><p className="mt-5 max-w-[26rem] text-[10px] uppercase leading-5 tracking-[0.22em] text-[#d9c9b4] sm:tracking-[0.28em]">Photographer in Valencia · portraits · couples · families</p></div>
+            <div data-reveal className="flex flex-col justify-center"><p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#c7ad82] sm:mb-6 sm:tracking-[0.34em]">About Leila</p><h2 className="font-editorial text-[clamp(3.2rem,13vw,8.5rem)] leading-[0.88] sm:leading-[0.84]">Real emotion without forced posing.</h2><div className="mt-8 grid gap-6 text-[16px] leading-8 text-[#d9c9b4] sm:mt-10 sm:text-[18px] sm:leading-9"><p>Leila is a photographer based in Valencia, Spain, working with portraits, couples and families. Her work is built around soft direction, natural gestures and a timeless visual style.</p><p>The sessions are calm and personal. The goal is not to make people look different, but to show their closeness, beauty and emotion with better light, better timing and better composition.</p></div><a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-ghost-dark mt-9 sm:mt-10 sm:w-fit">Open Instagram</a></div>
           </div>
         </section>
 
         <section id="services" className="px-4 py-20 sm:px-6 sm:py-28 lg:px-10 lg:py-36">
-          <div className="mx-auto max-w-[1560px]">
-            <div data-reveal className="mb-12 max-w-[58rem] sm:mb-14"><p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:tracking-[0.34em]">Services</p><h2 className="font-editorial text-[clamp(3.2rem,13vw,8.5rem)] leading-[0.88] sm:leading-[0.84]">Portraits, couples and families in Valencia.</h2></div>
-            <div className="border-t border-[#17130f]/15">
-              {services.map(([index, title, description, details]) => (
-                <article key={title} data-reveal className="grid gap-5 border-b border-[#17130f]/15 py-8 md:grid-cols-[0.18fr_0.82fr_1fr] md:gap-10 md:py-12">
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-[#8c6f45] sm:tracking-[0.3em]">{index}</p>
-                  <h3 className="font-editorial text-[clamp(2.5rem,11vw,5.4rem)] leading-[0.9] sm:leading-[0.88]">{title}</h3>
-                  <div><p className="text-[16px] leading-8 text-[#3a342d] sm:text-[18px] sm:leading-9">{description}</p><p className="mt-5 text-[10px] uppercase leading-5 tracking-[0.2em] text-[#6f6255] sm:tracking-[0.24em]">{details}</p></div>
-                </article>
-              ))}
-            </div>
-          </div>
+          <div className="mx-auto max-w-[1560px]"><div data-reveal className="mb-12 max-w-[58rem] sm:mb-14"><p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:tracking-[0.34em]">Services</p><h2 className="font-editorial text-[clamp(3.2rem,13vw,8.5rem)] leading-[0.88] sm:leading-[0.84]">Portraits, couples and families in Valencia.</h2></div><div className="border-t border-[#17130f]/15">{services.map(([index, title, description, details]) => (<article key={title} data-reveal className="grid gap-5 border-b border-[#17130f]/15 py-8 md:grid-cols-[0.18fr_0.82fr_1fr] md:gap-10 md:py-12"><p className="text-[10px] uppercase tracking-[0.24em] text-[#8c6f45] sm:tracking-[0.3em]">{index}</p><h3 className="font-editorial text-[clamp(2.5rem,11vw,5.4rem)] leading-[0.9] sm:leading-[0.88]">{title}</h3><div><p className="text-[16px] leading-8 text-[#3a342d] sm:text-[18px] sm:leading-9">{description}</p><p className="mt-5 text-[10px] uppercase leading-5 tracking-[0.2em] text-[#6f6255] sm:tracking-[0.24em]">{details}</p></div></article>))}</div></div>
         </section>
 
         <section id="investment" className="bg-[#e8dece] px-4 py-20 sm:px-6 sm:py-28 lg:px-10 lg:py-36">
-          <div className="mx-auto max-w-[1560px]">
-            <div data-reveal className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-              <div>
-                <p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:tracking-[0.34em]">Investment</p>
-                <h2 className="font-editorial max-w-[58rem] text-[clamp(3.2rem,13vw,8.5rem)] leading-[0.88] sm:leading-[0.84]">Simple pricing for private sessions.</h2>
-              </div>
-              <p className="max-w-[38rem] text-[16px] leading-8 text-[#4f463d] sm:text-[18px] sm:leading-9">Final price depends on location, timing and the selected format. To check availability, send a direct message on Instagram.</p>
-            </div>
-
-            <div className="mt-12 border-t border-[#17130f]/15 sm:mt-14">
-              {investment.map(([index, title, price, unit]) => (
-                <article key={title} data-reveal className="grid gap-5 border-b border-[#17130f]/15 py-8 md:grid-cols-[0.18fr_1fr_0.55fr] md:items-end md:gap-10 md:py-12">
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-[#8c6f45] sm:tracking-[0.3em]">{index}</p>
-                  <h3 className="font-editorial text-[clamp(2.5rem,11vw,5.4rem)] leading-[0.9] sm:leading-[0.88]">{title}</h3>
-                  <div className="md:text-right">
-                    <p className="font-editorial text-[clamp(2.6rem,10vw,5rem)] leading-none tracking-[-0.05em] text-[#17130f]">{price}</p>
-                    <p className="mt-3 text-[10px] uppercase tracking-[0.24em] text-[#6f6255]">{unit}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <div data-reveal className="mt-8 grid gap-3 sm:flex sm:items-center sm:justify-between">
-              <p className="max-w-[34rem] text-[13px] leading-6 text-[#5d5146]">Prices are shown for hourly sessions. Travel, extended coverage and custom requests are discussed individually.</p>
-              <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-dark sm:w-fit">Ask for availability</a>
-            </div>
-          </div>
+          <div className="mx-auto max-w-[1560px]"><div data-reveal className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end"><div><p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:tracking-[0.34em]">Investment</p><h2 className="font-editorial max-w-[58rem] text-[clamp(3.2rem,13vw,8.5rem)] leading-[0.88] sm:leading-[0.84]">Simple pricing for private sessions.</h2></div><p className="max-w-[38rem] text-[16px] leading-8 text-[#4f463d] sm:text-[18px] sm:leading-9">Final price depends on location, timing and the selected format. To check availability, send a direct message on Instagram.</p></div><div className="mt-12 border-t border-[#17130f]/15 sm:mt-14">{investment.map(([index, title, price, unit]) => (<article key={title} data-reveal className="grid gap-5 border-b border-[#17130f]/15 py-8 md:grid-cols-[0.18fr_1fr_0.55fr] md:items-end md:gap-10 md:py-12"><p className="text-[10px] uppercase tracking-[0.24em] text-[#8c6f45] sm:tracking-[0.3em]">{index}</p><h3 className="font-editorial text-[clamp(2.5rem,11vw,5.4rem)] leading-[0.9] sm:leading-[0.88]">{title}</h3><div className="md:text-right"><p className="font-editorial text-[clamp(2.6rem,10vw,5rem)] leading-none tracking-[-0.05em] text-[#17130f]">{price}</p><p className="mt-3 text-[10px] uppercase tracking-[0.24em] text-[#6f6255]">{unit}</p></div></article>))}</div><div data-reveal className="mt-8 grid gap-3 sm:flex sm:items-center sm:justify-between"><p className="max-w-[34rem] text-[13px] leading-6 text-[#5d5146]">Prices are shown for hourly sessions. Travel, extended coverage and custom requests are discussed individually.</p><a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-dark sm:w-fit">Ask for availability</a></div></div>
         </section>
 
         <section id="process" className="bg-[#e8dece] px-4 py-20 sm:px-6 sm:py-28 lg:px-10 lg:py-36">
-          <div className="mx-auto grid max-w-[1560px] gap-10 lg:grid-cols-[0.74fr_1.26fr] lg:gap-20">
-            <div data-reveal className="lg:sticky lg:top-32 lg:self-start"><p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:tracking-[0.34em]">Process</p><h2 className="font-editorial text-[clamp(3.1rem,12vw,7.5rem)] leading-[0.88] sm:leading-[0.84]">Easy booking. Calm session. Timeless gallery.</h2></div>
-            <div className="space-y-4">
-              {process.map(([title, text], index) => (
-                <article key={title} data-reveal className="grid gap-4 border border-[#17130f]/10 bg-[#f4efe6]/45 p-5 sm:p-7 md:grid-cols-[0.18fr_0.82fr] md:gap-5">
-                  <p className="font-editorial text-5xl leading-none text-[#8c6f45]">{String(index + 1).padStart(2, "0")}</p>
-                  <div><h3 className="text-[11px] uppercase tracking-[0.24em] sm:tracking-[0.3em]">{title}</h3><p className="mt-4 max-w-[46rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">{text}</p></div>
-                </article>
-              ))}
-            </div>
-          </div>
+          <div className="mx-auto grid max-w-[1560px] gap-10 lg:grid-cols-[0.74fr_1.26fr] lg:gap-20"><div data-reveal className="lg:sticky lg:top-32 lg:self-start"><p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:tracking-[0.34em]">Process</p><h2 className="font-editorial text-[clamp(3.1rem,12vw,7.5rem)] leading-[0.88] sm:leading-[0.84]">Easy booking. Calm session. Timeless gallery.</h2></div><div className="space-y-4">{process.map(([title, text], index) => (<article key={title} data-reveal className="grid gap-4 border border-[#17130f]/10 bg-[#f4efe6]/45 p-5 sm:p-7 md:grid-cols-[0.18fr_0.82fr] md:gap-5"><p className="font-editorial text-5xl leading-none text-[#8c6f45]">{String(index + 1).padStart(2, "0")}</p><div><h3 className="text-[11px] uppercase tracking-[0.24em] sm:tracking-[0.3em]">{title}</h3><p className="mt-4 max-w-[46rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">{text}</p></div></article>))}</div></div>
         </section>
 
         <section className="px-4 py-20 sm:px-6 sm:py-28 lg:px-10 lg:py-36">
-          <div className="mx-auto max-w-[1560px]">
-            <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-end lg:gap-8">
-              <div data-reveal><p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:tracking-[0.34em]">Reviews</p><h2 className="font-editorial text-[clamp(3.1rem,12vw,7.5rem)] leading-[0.88] sm:leading-[0.84]">The best proof is recognition.</h2></div>
-              <p data-reveal className="max-w-[38rem] text-[16px] leading-8 text-[#4f463d] sm:text-[18px] sm:leading-9">The photographs should still feel like you — only softer, calmer and more timeless.</p>
-            </div>
-            <div className="mt-10 grid gap-4 sm:mt-14 lg:grid-cols-3">
-              {testimonials.map(([quote, name, context]) => (
-                <article key={context} data-reveal className="flex min-h-[300px] flex-col justify-between border border-[#17130f]/12 bg-[#efe7da] p-6 sm:min-h-[330px] sm:p-7">
-                  <p className="font-editorial text-[2rem] leading-[1.05] tracking-[-0.05em] text-[#261c14] sm:text-[2.25rem]">“{quote}”</p>
-                  <div className="mt-10 border-t border-[#17130f]/12 pt-5"><p className="text-[11px] uppercase tracking-[0.24em] sm:tracking-[0.28em]">{name}</p><p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#8c6f45] sm:tracking-[0.24em]">{context}</p></div>
-                </article>
-              ))}
-            </div>
-          </div>
+          <div className="mx-auto max-w-[1560px]"><div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-end lg:gap-8"><div data-reveal><p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:tracking-[0.34em]">Reviews</p><h2 className="font-editorial text-[clamp(3.1rem,12vw,7.5rem)] leading-[0.88] sm:leading-[0.84]">The best proof is recognition.</h2></div><p data-reveal className="max-w-[38rem] text-[16px] leading-8 text-[#4f463d] sm:text-[18px] sm:leading-9">The photographs should still feel like you — only softer, calmer and more timeless.</p></div><div className="mt-10 grid gap-4 sm:mt-14 lg:grid-cols-3">{testimonials.map(([quote, name, context]) => (<article key={context} data-reveal className="flex min-h-[300px] flex-col justify-between border border-[#17130f]/12 bg-[#efe7da] p-6 sm:min-h-[330px] sm:p-7"><p className="font-editorial text-[2rem] leading-[1.05] tracking-[-0.05em] text-[#261c14] sm:text-[2.25rem]">“{quote}”</p><div className="mt-10 border-t border-[#17130f]/12 pt-5"><p className="text-[11px] uppercase tracking-[0.24em] sm:tracking-[0.28em]">{name}</p><p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#8c6f45] sm:tracking-[0.24em]">{context}</p></div></article>))}</div></div>
         </section>
 
         <section id="booking" className="px-4 pb-8 sm:px-6 sm:pb-10 lg:px-10">
-          <div className="mx-auto max-w-[1560px] bg-[#17130f] px-5 py-10 text-[#f4efe6] sm:px-8 sm:py-14 lg:px-14 lg:py-20">
-            <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-              <div data-reveal className="flex flex-col justify-center">
-                <p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#c7ad82] sm:mb-6 sm:tracking-[0.34em]">Booking open</p>
-                <h2 className="font-editorial text-[clamp(3.1rem,13vw,9rem)] leading-[0.88] sm:leading-[0.82]">Write to Leila and choose your date.</h2>
-                <p className="mt-7 max-w-[34rem] text-[16px] leading-8 text-[#d9c9b4] sm:mt-8 sm:text-[18px] sm:leading-9">Send a direct message on Instagram with the session type, city, preferred date and the atmosphere you want. Leila will reply with availability and next steps.</p>
-              </div>
-              <div data-reveal className="relative min-h-[420px] overflow-hidden bg-[#2a2018] sm:min-h-[520px]">
-                <Image src="/photos/session-05/01.jpg" alt="Leila family session booking preview" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover opacity-75" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/92 via-[#17130f]/38 to-[#17130f]/10" />
-                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 lg:p-10">
-                  <p className="mb-4 text-[10px] uppercase leading-5 tracking-[0.2em] text-[#c7ad82] sm:mb-5 sm:tracking-[0.28em]">DM to book · portraits · couples · families</p>
-                  <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-light">Book via Instagram</a>
-                  <div className="mt-6 grid gap-3 text-[10px] uppercase tracking-[0.22em] text-[#f4efe6] sm:tracking-[0.26em]"><a href={studio.instagramUrl} target="_blank" rel="noreferrer">{studio.instagram}</a><p>{studio.city}</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div className="mx-auto max-w-[1560px] bg-[#17130f] px-5 py-10 text-[#f4efe6] sm:px-8 sm:py-14 lg:px-14 lg:py-20"><div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16"><div data-reveal className="flex flex-col justify-center"><p className="mb-5 text-[10px] uppercase tracking-[0.26em] text-[#c7ad82] sm:mb-6 sm:tracking-[0.34em]">Booking open</p><h2 className="font-editorial text-[clamp(3.1rem,13vw,9rem)] leading-[0.88] sm:leading-[0.82]">Write to Leila and choose your date.</h2><p className="mt-7 max-w-[34rem] text-[16px] leading-8 text-[#d9c9b4] sm:mt-8 sm:text-[18px] sm:leading-9">Send a direct message on Instagram with the session type, city, preferred date and the atmosphere you want. Leila will reply with availability and next steps.</p></div><div data-reveal className="relative min-h-[420px] overflow-hidden bg-[#2a2018] sm:min-h-[520px]"><Image src="/photos/session-05/01.jpg" alt="Leila family session booking preview" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover opacity-75" /><div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/92 via-[#17130f]/38 to-[#17130f]/10" /><div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 lg:p-10"><p className="mb-4 text-[10px] uppercase leading-5 tracking-[0.2em] text-[#c7ad82] sm:mb-5 sm:tracking-[0.28em]">DM to book · portraits · couples · families</p><a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-light">Book via Instagram</a><div className="mt-6 grid gap-3 text-[10px] uppercase tracking-[0.22em] text-[#f4efe6] sm:tracking-[0.26em]"><a href={studio.instagramUrl} target="_blank" rel="noreferrer">{studio.instagram}</a><p>{studio.city}</p></div></div></div></div></div>
         </section>
 
-        <footer className="px-4 py-8 sm:px-6 lg:px-10">
-          <div className="mx-auto flex max-w-[1560px] flex-col gap-4 border-t border-[#17130f]/12 pt-6 text-[10px] uppercase tracking-[0.2em] text-[#6f6255] sm:tracking-[0.24em] md:flex-row md:items-center md:justify-between"><p>© 2026 {studio.name}</p><a href={studio.instagramUrl} target="_blank" rel="noreferrer">{studio.instagram}</a><p>{studio.city}</p></div>
-        </footer>
+        <footer className="px-4 py-8 sm:px-6 lg:px-10"><div className="mx-auto flex max-w-[1560px] flex-col gap-4 border-t border-[#17130f]/12 pt-6 text-[10px] uppercase tracking-[0.2em] text-[#6f6255] sm:tracking-[0.24em] md:flex-row md:items-center md:justify-between"><p>© 2026 {studio.name}</p><a href={studio.instagramUrl} target="_blank" rel="noreferrer">{studio.instagram}</a><p>{studio.city}</p></div></footer>
 
         {activePhoto ? (
           <div role="dialog" aria-modal="true" aria-label="Photo preview" onClick={() => setActivePhoto(null)} onTouchStart={(event) => setTouchStartX(event.touches[0]?.clientX ?? null)} onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)} className="fixed inset-0 z-[80] flex items-center justify-center bg-[#17130f]/95 p-4 text-[#f4efe6] sm:p-8">
             <button type="button" onClick={() => setActivePhoto(null)} className="absolute right-4 top-4 z-10 border border-[#f4efe6]/20 px-4 py-3 text-[10px] uppercase tracking-[0.22em] transition hover:border-[#f4efe6] sm:right-8 sm:top-8 sm:tracking-[0.26em]">Close</button>
             <button type="button" onClick={(event) => { event.stopPropagation(); movePhoto(-1); }} className="absolute left-4 top-1/2 z-10 hidden -translate-y-1/2 border border-[#f4efe6]/20 px-4 py-5 text-[10px] uppercase tracking-[0.26em] transition hover:border-[#f4efe6] md:block">Prev</button>
             <button type="button" onClick={(event) => { event.stopPropagation(); movePhoto(1); }} className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 border border-[#f4efe6]/20 px-4 py-5 text-[10px] uppercase tracking-[0.26em] transition hover:border-[#f4efe6] md:block">Next</button>
-            <figure onClick={(event) => event.stopPropagation()} className="grid max-h-[92vh] w-full max-w-[1180px] gap-4 sm:gap-5">
-              <div className="relative h-[68vh] max-h-[760px] w-full overflow-hidden sm:h-[70vh]"><Image src={activePhoto.src} alt={`${activePhoto.sessionTitle} full preview`} fill sizes="100vw" className="object-contain" priority /></div>
-              <figcaption className="flex flex-col gap-2 border-t border-[#f4efe6]/15 pt-4 sm:flex-row sm:items-end sm:justify-between"><div><h3 className="font-editorial text-4xl leading-none">{activePhoto.sessionTitle}</h3><p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-[#d9c9b4] sm:tracking-[0.26em]">Story {activePhoto.sessionNumber} · Frame {String(activePhoto.frame).padStart(2, "0")}</p></div><p className="text-[10px] uppercase tracking-[0.22em] text-[#c7ad82] sm:tracking-[0.26em]">{activePhoto.location} · {activePhoto.year}</p></figcaption>
-              <div className="grid grid-cols-2 gap-3 md:hidden"><button type="button" onClick={() => movePhoto(-1)} className="border border-[#f4efe6]/20 px-4 py-4 text-[10px] uppercase tracking-[0.22em]">Prev</button><button type="button" onClick={() => movePhoto(1)} className="border border-[#f4efe6]/20 px-4 py-4 text-[10px] uppercase tracking-[0.22em]">Next</button></div>
-            </figure>
+            <figure onClick={(event) => event.stopPropagation()} className="grid max-h-[92vh] w-full max-w-[1180px] gap-4 sm:gap-5"><div className="relative h-[68vh] max-h-[760px] w-full overflow-hidden sm:h-[70vh]"><Image src={activePhoto.src} alt={`${activePhoto.sessionTitle} full preview`} fill sizes="100vw" className="object-contain" priority /></div><figcaption className="flex flex-col gap-2 border-t border-[#f4efe6]/15 pt-4 sm:flex-row sm:items-end sm:justify-between"><div><h3 className="font-editorial text-4xl leading-none">{activePhoto.sessionTitle}</h3><p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-[#d9c9b4] sm:tracking-[0.26em]">Story {activePhoto.sessionNumber} · Frame {String(activePhoto.frame).padStart(2, "0")}</p></div><p className="text-[10px] uppercase tracking-[0.22em] text-[#c7ad82] sm:tracking-[0.26em]">{activePhoto.location} · {activePhoto.year}</p></figcaption><div className="grid grid-cols-2 gap-3 md:hidden"><button type="button" onClick={() => movePhoto(-1)} className="border border-[#f4efe6]/20 px-4 py-4 text-[10px] uppercase tracking-[0.22em]">Prev</button><button type="button" onClick={() => movePhoto(1)} className="border border-[#f4efe6]/20 px-4 py-4 text-[10px] uppercase tracking-[0.22em]">Next</button></div></figure>
           </div>
         ) : null}
       </div>
