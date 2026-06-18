@@ -58,7 +58,6 @@ const sessions: PhotoSession[] = [
 
 const ratioPattern: PhotoRatio[] = ["portrait", "tall", "square", "landscape", "portrait", "wide", "tall", "portrait", "landscape", "square"];
 const hiddenPhotoIds = new Set(["session-08-02"]);
-const mobileSelectedPhotoIds = ["session-01-01", "session-02-02", "session-03-04", "session-05-05", "session-06-03", "session-08-01"];
 
 const photos: Photo[] = sessions
   .flatMap((session) =>
@@ -80,6 +79,26 @@ const photos: Photo[] = sessions
     }),
   )
   .filter((photo) => !hiddenPhotoIds.has(photo.id));
+
+const desktopSelectedWork = [
+  { id: "session-01-04", size: "lg:col-span-2 lg:row-span-2", ratio: "aspect-[5/4] lg:aspect-auto" },
+  { id: "session-02-02", size: "", ratio: "aspect-[4/5]" },
+  { id: "session-03-04", size: "", ratio: "aspect-[4/5]" },
+  { id: "session-05-01", size: "lg:col-span-2", ratio: "aspect-[16/10]" },
+  { id: "session-06-03", size: "", ratio: "aspect-[4/5]" },
+  { id: "session-08-01", size: "", ratio: "aspect-[4/5]" },
+  { id: "session-03-06", size: "", ratio: "aspect-[4/5]" },
+  { id: "session-05-05", size: "", ratio: "aspect-[4/5]" },
+];
+
+const mobileSelectedFrames = [
+  { id: "session-01-01", src: "/photos/session-01/04.jpg" },
+  { id: "session-02-02" },
+  { id: "session-03-04" },
+  { id: "session-05-05" },
+  { id: "session-06-03" },
+  { id: "session-08-01" },
+];
 
 const services = [
   ["01", "Portraits", "Soft, minimal portraits for women who want to feel natural, elegant and present in the frame.", "Valencia or nearby locations · light direction · refined edit · private gallery"],
@@ -128,6 +147,12 @@ function getRatioClass(ratio: PhotoRatio) {
   return classes[ratio];
 }
 
+function getPhoto(id: string, srcOverride?: string) {
+  const photo = photos.find((item) => item.id === id);
+  if (!photo) return null;
+  return srcOverride ? { ...photo, src: srcOverride } : photo;
+}
+
 export default function Page() {
   const [activeFilter, setActiveFilter] = useState<FilterId>("all");
   const [activePhoto, setActivePhoto] = useState<Photo | null>(null);
@@ -140,11 +165,16 @@ export default function Page() {
     return photos.filter((photo) => photo.sessionId === activeFilter);
   }, [activeFilter]);
 
+  const desktopSelectedPhotos = useMemo(
+    () => desktopSelectedWork.map((item) => ({ config: item, photo: getPhoto(item.id) })).filter((item): item is { config: typeof desktopSelectedWork[number]; photo: Photo } => Boolean(item.photo)),
+    [],
+  );
+
   const mobilePreviewPhotos = useMemo(() => {
     if (activeFilter !== "all") return visiblePhotos.slice(0, 6);
 
-    const selected = mobileSelectedPhotoIds
-      .map((id) => photos.find((photo) => photo.id === id))
+    const selected = mobileSelectedFrames
+      .map((item) => getPhoto(item.id, item.src))
       .filter((photo): photo is Photo => Boolean(photo));
 
     return selected.length ? selected : photos.slice(0, 6);
@@ -152,6 +182,7 @@ export default function Page() {
 
   const mobilePhotosToShow = mobileGalleryOpen ? visiblePhotos : mobilePreviewPhotos;
   const activeSession = activeFilter === "all" ? null : sessions.find((session) => session.id === activeFilter) ?? null;
+  const activeStoryPhotos = activeSession ? visiblePhotos : [];
 
   useEffect(() => {
     const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
@@ -257,29 +288,33 @@ export default function Page() {
           </div>
         </header>
 
-        <section id="top" className="px-4 pb-10 pt-4 sm:px-6 sm:pb-16 lg:px-10 lg:pb-24">
-          <div className="mx-auto max-w-[1560px]">
-            <div data-reveal className="relative min-h-[calc(100svh-86px)] overflow-hidden bg-[#17130f] sm:min-h-[760px] lg:min-h-[calc(100vh-6.5rem)]">
-              <Image src="/photos/session-01/01.jpg" alt="Leila Photography in Valencia" fill priority sizes="100vw" className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/88 via-[#17130f]/24 to-[#17130f]/8" />
-              <div className="absolute inset-x-0 bottom-0 p-5 text-[#f4efe6] sm:p-8 lg:p-12">
-                <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
-                  <div>
-                    <p className="mb-4 text-[10px] uppercase leading-5 tracking-[0.26em] text-[#c7ad82] sm:mb-6 sm:tracking-[0.34em]">Photographer in Valencia · portraits · couples · families</p>
-                    <h1 className="font-editorial max-w-[62rem] text-[clamp(4rem,17vw,13rem)] leading-[0.78]">Real emotion. Timeless light.</h1>
-                  </div>
-                  <div className="lg:pb-3">
-                    <p className="max-w-[35rem] text-[16px] leading-8 text-[#efe7da] sm:text-[19px] sm:leading-9">Soft cinematic photography for people who want their story to feel honest, elegant and alive.</p>
-                    <div className="mt-7 grid gap-3 sm:flex sm:flex-row">
-                      <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-light">Book via Instagram</a>
-                      <a href="#gallery" className="btn-ghost-dark">View gallery</a>
-                    </div>
+        <section id="top" className="px-4 pb-12 pt-4 sm:px-6 lg:px-10 lg:pb-24 lg:pt-6">
+          <div className="mx-auto grid max-w-[1560px] overflow-hidden border border-[#17130f]/10 bg-[#efe7da] lg:min-h-[calc(100vh-7.5rem)] lg:grid-cols-[1.08fr_0.92fr]">
+            <div data-reveal className="relative min-h-[58svh] bg-[#d9c9b4] sm:min-h-[660px] lg:min-h-full">
+              <Image src="/photos/session-01/04.jpg" alt="Leila Photography love story in Valencia" fill priority sizes="(max-width: 1024px) 100vw, 56vw" className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/32 via-transparent to-transparent lg:hidden" />
+              <p className="absolute bottom-5 left-5 right-5 text-[10px] uppercase leading-5 tracking-[0.24em] text-[#f4efe6] lg:hidden">Valencia · portraits · couples · families</p>
+            </div>
+
+            <div data-reveal className="flex flex-col justify-between gap-12 p-5 sm:p-8 lg:p-12 xl:p-16">
+              <div>
+                <p className="mb-6 max-w-[34rem] text-[10px] uppercase leading-5 tracking-[0.3em] text-[#8c6f45]">Photographer in Valencia · portraits · couples · families</p>
+                <h1 className="font-editorial max-w-[44rem] text-[clamp(4rem,11vw,10rem)] leading-[0.82] lg:text-[clamp(5.8rem,7.8vw,9.2rem)]">Real emotion. Timeless light.</h1>
+              </div>
+
+              <div className="grid gap-8 xl:grid-cols-[1fr_0.76fr] xl:items-end">
+                <div>
+                  <p className="max-w-[34rem] text-[16px] leading-8 text-[#4f463d] sm:text-[19px] sm:leading-9">Soft cinematic photography for people who want their story to feel honest, elegant and alive.</p>
+                  <div className="mt-7 grid gap-3 sm:flex sm:flex-row">
+                    <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="btn-dark">Book via Instagram</a>
+                    <a href="#gallery" className="btn-outline">View gallery</a>
                   </div>
                 </div>
-              </div>
-              <div className="absolute right-6 top-6 hidden w-[18rem] grid-cols-2 gap-3 lg:grid">
-                <div className="relative aspect-[4/5] overflow-hidden border border-[#f4efe6]/20"><Image src="/photos/session-07/01.jpg" alt="Leila portrait" fill sizes="18rem" className="object-cover" /></div>
-                <div className="relative mt-16 aspect-[4/5] overflow-hidden border border-[#f4efe6]/20"><Image src="/photos/session-08/01.jpg" alt="Coast story" fill sizes="18rem" className="object-cover" /></div>
+                <div className="hidden border-l border-[#17130f]/12 pl-6 text-[10px] uppercase leading-6 tracking-[0.26em] text-[#6f6255] xl:block">
+                  <p>Real emotions</p>
+                  <p>Timeless style</p>
+                  <p>Booking open</p>
+                </div>
               </div>
             </div>
           </div>
@@ -296,9 +331,9 @@ export default function Page() {
             <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-8">
               <div data-reveal>
                 <p className="mb-4 text-[10px] uppercase tracking-[0.26em] text-[#8c6f45] sm:mb-5 sm:tracking-[0.34em]">Gallery</p>
-                <h2 className="font-editorial max-w-[58rem] text-[clamp(3.2rem,14vw,9rem)] leading-[0.88] sm:leading-[0.82]">Soft stories from Spain.</h2>
+                <h2 className="font-editorial max-w-[58rem] text-[clamp(3.2rem,14vw,9rem)] leading-[0.88] sm:leading-[0.82]">Selected stories from Spain.</h2>
               </div>
-              <p data-reveal className="max-w-[39rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">Start with a short curated selection. Open the full archive only when you want to go deeper into the work.</p>
+              <p data-reveal className="max-w-[39rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">Start with a curated selection. Choose a story when you want to see the full rhythm of one session.</p>
             </div>
 
             <div className="sm:hidden">
@@ -311,7 +346,7 @@ export default function Page() {
                 </div>
                 <div className="flex gap-3 overflow-x-auto px-4 hide-scrollbar">
                   <button type="button" onClick={() => changeFilter("all")} className={`w-[132px] shrink-0 text-left ${activeFilter === "all" ? "opacity-100" : "opacity-70"}`}>
-                    <div className={`relative aspect-[4/5] overflow-hidden border ${activeFilter === "all" ? "border-[#17130f]" : "border-[#17130f]/12"}`}><Image src="/photos/session-01/01.jpg" alt="All selected work" fill sizes="132px" className="object-cover" /><div className="absolute inset-0 bg-[#17130f]/25" /><div className="absolute bottom-3 left-3 right-3 text-[#f4efe6]"><p className="text-[10px] uppercase tracking-[0.2em]">All</p><p className="mt-1 text-[11px] uppercase tracking-[0.14em]">Selected</p></div></div>
+                    <div className={`relative aspect-[4/5] overflow-hidden border ${activeFilter === "all" ? "border-[#17130f]" : "border-[#17130f]/12"}`}><Image src="/photos/session-05/01.jpg" alt="All selected work" fill sizes="132px" className="object-cover" /><div className="absolute inset-0 bg-[#17130f]/25" /><div className="absolute bottom-3 left-3 right-3 text-[#f4efe6]"><p className="text-[10px] uppercase tracking-[0.2em]">All</p><p className="mt-1 text-[11px] uppercase tracking-[0.14em]">Selected</p></div></div>
                   </button>
                   {sessions.map((session) => (
                     <button key={session.id} type="button" onClick={() => changeFilter(session.id)} className={`w-[132px] shrink-0 text-left ${activeFilter === session.id ? "opacity-100" : "opacity-70"}`}>
@@ -329,7 +364,7 @@ export default function Page() {
 
               <div className="mt-7 columns-1 gap-4">
                 {mobilePhotosToShow.map((photo) => (
-                  <article key={photo.id} data-reveal className="mb-5 break-inside-avoid">
+                  <article key={`${photo.id}-${photo.src}`} data-reveal className="mb-5 break-inside-avoid">
                     <button type="button" onClick={() => setActivePhoto(photo)} className="block w-full text-left">
                       <div className={`relative overflow-hidden bg-[#d9c9b4] ${getRatioClass(photo.ratio)}`}><Image src={photo.src} alt={`${photo.sessionTitle} frame ${photo.frame}`} fill sizes="100vw" className="object-cover" /></div>
                       <div className="flex items-start justify-between gap-5 border-b border-[#17130f]/10 py-4"><div><h4 className="font-editorial text-3xl leading-none tracking-[-0.04em]">{photo.sessionTitle}</h4><p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#6f6255]">Frame {String(photo.frame).padStart(2, "0")}</p></div><p className="pt-1 text-right text-[10px] uppercase leading-5 tracking-[0.2em] text-[#8c6f45]">{photo.location}<br />{photo.year}</p></div>
@@ -342,22 +377,56 @@ export default function Page() {
             </div>
 
             <div className="hidden sm:block">
-              <div className="sticky top-[65px] z-40 -mx-6 mt-10 border-y border-[#17130f]/10 bg-[#f4efe6]/94 px-6 py-3 backdrop-blur-xl lg:-mx-10 lg:px-10">
-                <div className="mx-auto flex max-w-[1560px] items-center gap-3 overflow-x-auto hide-scrollbar">
-                  <button type="button" onClick={() => changeFilter("all")} aria-pressed={activeFilter === "all"} className={`shrink-0 border px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition ${activeFilter === "all" ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>All / {photos.length}</button>
-                  {sessions.map((session) => (<button key={session.id} type="button" onClick={() => changeFilter(session.id)} aria-pressed={activeFilter === session.id} className={`shrink-0 border px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition ${activeFilter === session.id ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>Story {session.number}</button>))}
-                </div>
-              </div>
-              <div className="mt-8 flex flex-col gap-2 border-b border-[#17130f]/10 pb-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-[10px] uppercase tracking-[0.28em] text-[#8c6f45]">{activeSession ? activeSession.note : "full archive"}</p><h3 className="font-editorial mt-2 text-[clamp(2.6rem,6vw,5.8rem)] leading-[0.9]">{activeSession ? activeSession.title : "All stories"}</h3></div><p className="text-[10px] uppercase leading-5 tracking-[0.24em] text-[#6f6255]">{visiblePhotos.length} frames · tap to open</p></div>
-              <div className="mt-8 columns-2 gap-4 lg:columns-3 2xl:columns-4">
-                {visiblePhotos.map((photo, index) => (
-                  <article key={photo.id} data-reveal className={`mb-4 break-inside-avoid ${index % 8 === 2 ? "lg:pt-12" : ""} ${index % 11 === 5 ? "2xl:pt-20" : ""}`}>
-                    <button type="button" onClick={() => setActivePhoto(photo)} className="group block w-full text-left">
-                      <div className={`relative overflow-hidden bg-[#d9c9b4] ${getRatioClass(photo.ratio)}`}><Image src={photo.src} alt={`${photo.sessionTitle} frame ${photo.frame}`} fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover transition duration-[1100ms] ease-out group-hover:scale-[1.035]" /><div className="absolute inset-0 bg-[#17130f]/0 transition group-hover:bg-[#17130f]/14" /><div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-4 opacity-0 transition duration-500 group-hover:opacity-100"><span className="bg-[#f4efe6] px-4 py-3 text-[10px] uppercase tracking-[0.22em] text-[#17130f]">Open</span><span className="text-[10px] uppercase tracking-[0.22em] text-[#f4efe6]">{photo.sessionNumber}.{String(photo.frame).padStart(2, "0")}</span></div></div>
-                      <div className="flex items-start justify-between gap-5 border-b border-[#17130f]/10 py-4"><div><h4 className="font-editorial text-3xl leading-none tracking-[-0.04em]">{photo.sessionTitle}</h4><p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-[#6f6255]">Frame {String(photo.frame).padStart(2, "0")}</p></div><p className="pt-1 text-right text-[10px] uppercase leading-5 tracking-[0.22em] text-[#8c6f45]">{photo.location}<br />{photo.year}</p></div>
-                    </button>
-                  </article>
+              <div className="mt-12 grid auto-rows-[230px] grid-cols-4 gap-4 xl:auto-rows-[270px]">
+                {desktopSelectedPhotos.map(({ config, photo }) => (
+                  <button key={photo.id} type="button" onClick={() => setActivePhoto(photo)} data-reveal className={`group relative overflow-hidden bg-[#d9c9b4] text-left ${config.size}`}>
+                    <Image src={photo.src} alt={`${photo.sessionTitle} selected frame`} fill sizes="(max-width: 1280px) 50vw, 34vw" className={`object-cover transition duration-[1200ms] ease-out group-hover:scale-[1.035] ${config.ratio}`} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/62 via-transparent to-transparent opacity-70 transition group-hover:opacity-90" />
+                    <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-5 p-5 text-[#f4efe6]">
+                      <div><p className="text-[10px] uppercase tracking-[0.24em] text-[#c7ad82]">Story {photo.sessionNumber}</p><h3 className="font-editorial mt-2 text-4xl leading-none">{photo.sessionTitle}</h3></div>
+                      <p className="text-[10px] uppercase tracking-[0.24em]">Open</p>
+                    </div>
+                  </button>
                 ))}
+              </div>
+
+              <div className="mt-20 grid gap-8 lg:grid-cols-[0.65fr_1.35fr] lg:items-start">
+                <div data-reveal className="lg:sticky lg:top-28">
+                  <p className="mb-5 text-[10px] uppercase tracking-[0.34em] text-[#8c6f45]">Stories archive</p>
+                  <h3 className="font-editorial text-[clamp(3rem,6vw,6.5rem)] leading-[0.86]">Choose one story.</h3>
+                  <p className="mt-6 max-w-[28rem] text-[16px] leading-8 text-[#4f463d]">Each session opens as a clean grid. No visual noise, no endless mixed archive.</p>
+                </div>
+
+                <div>
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                    {sessions.map((session) => (
+                      <button key={session.id} type="button" onClick={() => changeFilter(session.id)} data-reveal className={`group text-left ${activeFilter === session.id ? "opacity-100" : "opacity-80 hover:opacity-100"}`}>
+                        <div className={`relative aspect-[4/5] overflow-hidden bg-[#d9c9b4] ${activeFilter === session.id ? "ring-1 ring-[#17130f]" : ""}`}>
+                          <Image src={`/photos/${session.id}/01.jpg`} alt={`${session.title} cover`} fill sizes="(max-width: 1280px) 25vw, 18vw" className="object-cover transition duration-[900ms] group-hover:scale-[1.035]" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/72 via-transparent to-transparent" />
+                          <div className="absolute bottom-4 left-4 right-4 text-[#f4efe6]"><p className="text-[10px] uppercase tracking-[0.24em] text-[#c7ad82]">Story {session.number}</p><h4 className="font-editorial mt-2 text-3xl leading-none">{session.title}</h4><p className="mt-3 text-[10px] uppercase tracking-[0.2em]">{session.count} frames</p></div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {activeSession ? (
+                    <div className="mt-12 border-t border-[#17130f]/12 pt-8">
+                      <div className="mb-8 flex items-end justify-between gap-6">
+                        <div><p className="text-[10px] uppercase tracking-[0.28em] text-[#8c6f45]">{activeSession.note}</p><h3 className="font-editorial mt-2 text-[clamp(3rem,5vw,5.8rem)] leading-[0.9]">{activeSession.title}</h3></div>
+                        <button type="button" onClick={() => changeFilter("all")} className="hidden border border-[#17130f]/20 px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition hover:border-[#17130f] lg:block">Close story</button>
+                      </div>
+                      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
+                        {activeStoryPhotos.map((photo) => (
+                          <button key={photo.id} type="button" onClick={() => setActivePhoto(photo)} data-reveal className="group text-left">
+                            <div className="relative aspect-[4/5] overflow-hidden bg-[#d9c9b4]"><Image src={photo.src} alt={`${photo.sessionTitle} frame ${photo.frame}`} fill sizes="(max-width: 1280px) 20vw, 15vw" className="object-cover transition duration-[900ms] group-hover:scale-[1.035]" /></div>
+                            <p className="mt-3 text-[10px] uppercase tracking-[0.22em] text-[#6f6255]">Frame {String(photo.frame).padStart(2, "0")}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </div>
           </div>
