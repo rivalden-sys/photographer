@@ -51,4 +51,27 @@ textarea {
   #gallery .hide-scrollbar > button:first-child > div > img {
     opacity: 0 !important;
   }
+
+  #gallery .sm\:hidden > div.mt-7.columns-1 > article:first-child button > div:first-child {
+    background-image: url("/photos/session-01/04.jpg");
+    background-position: center 20%;
+    background-size: cover;
+  }
+
+  #gallery .sm\:hidden > div.mt-7.columns-1 > article:first-child button > div:first-child img {
+    opacity: 0 !important;
+  }
+
+  #gallery .sm\:hidden > div.mt-7.columns-1 > article:first-child button > div:nth-child(2) > div > p {
+    color: transparent !important;
+    position: relative;
+  }
+
+  #gallery .sm\:hidden > div.mt-7.columns-1 > article:first-child button > div:nth-child(2) > div > p::after {
+    color: #6f6255;
+    content: "Frame 04";
+    left: 0;
+    position: absolute;
+    top: 0;
+  }
 }
