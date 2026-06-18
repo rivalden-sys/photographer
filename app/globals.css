@@ -27,90 +27,22 @@ textarea {
   font: inherit;
 }
 
-#gallery article button > div:first-child img {
-  object-position: center 20% !important;
+#top img {
+  object-position: center 36% !important;
 }
 
-#top img,
+#gallery img,
 #about img,
 #booking img {
-  object-position: center 28% !important;
-}
-
-@media (min-width: 1024px) {
-  #top > div > div[data-reveal] {
-    min-height: min(760px, calc(100vh - 6.5rem)) !important;
-  }
-
-  #top > div > div[data-reveal] > img {
-    object-position: center 42% !important;
-    transform: scale(1.03);
-  }
-
-  #top > div > div[data-reveal] > div:nth-of-type(1) {
-    background: linear-gradient(90deg, rgba(23, 19, 15, 0.82) 0%, rgba(23, 19, 15, 0.52) 38%, rgba(23, 19, 15, 0.16) 70%, rgba(23, 19, 15, 0.04) 100%) !important;
-  }
-
-  #top > div > div[data-reveal] > div:nth-of-type(2) {
-    padding: 4rem !important;
-  }
-
-  #top h1 {
-    max-width: 46rem !important;
-    font-size: clamp(6.4rem, 8.5vw, 9.6rem) !important;
-    line-height: 0.82 !important;
-    letter-spacing: -0.065em !important;
-  }
-
-  #top h1 + * {
-    max-width: 28rem !important;
-  }
-
-  #top .btn-light,
-  #top .btn-ghost-dark {
-    min-width: 14rem;
-  }
-
-  #top > div > div[data-reveal] > div:nth-of-type(3) {
-    display: none !important;
-  }
+  object-position: center 24% !important;
 }
 
 @media (max-width: 640px) {
-  #gallery article button > div:first-child img {
-    object-position: center 20% !important;
+  #top img {
+    object-position: center 34% !important;
   }
 
-  #gallery .hide-scrollbar > button:first-child > div {
-    background-image: url("/photos/session-05/01.jpg");
-    background-position: center 28%;
-    background-size: cover;
-  }
-
-  #gallery .hide-scrollbar > button:first-child > div > img {
-    opacity: 0 !important;
-  }
-
-  #gallery .sm\:hidden > div.mt-7.columns-1 > article:first-child button > div:first-child {
-    background-image: url("/photos/session-01/04.jpg");
-    background-position: center 20%;
-    background-size: cover;
-  }
-
-  #gallery .sm\:hidden > div.mt-7.columns-1 > article:first-child button > div:first-child img {
-    opacity: 0 !important;
-  }
-
-  #gallery .sm\:hidden > div.mt-7.columns-1 > article:first-child button > div:nth-child(2) > div > p {
-    color: transparent !important;
-    position: relative;
-  }
-
-  #gallery .sm\:hidden > div.mt-7.columns-1 > article:first-child button > div:nth-child(2) > div > p::after {
-    color: #6f6255;
-    content: "Frame 04";
-    left: 0;
-    position: absolute;
-    top: 0;
+  #gallery img {
+    object-position: center 22% !important;
   }
 }
