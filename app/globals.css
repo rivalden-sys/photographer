@@ -37,4 +37,14 @@ textarea {
   #booking img {
     object-position: center 28% !important;
   }
+
+  #gallery .hide-scrollbar > button:first-child > div {
+    background-image: url("/photos/session-05/01.jpg");
+    background-position: center 28%;
+    background-size: cover;
+  }
+
+  #gallery .hide-scrollbar > button:first-child > div > img {
+    opacity: 0 !important;
+  }
 }
