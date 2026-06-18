@@ -39,21 +39,22 @@ type Photo = {
 };
 
 const studio = {
-  name: "Maison Photo",
-  city: "Wrocław / Europe",
-  email: "booking@maisonphoto.studio",
-  instagram: "@maisonphoto.studio",
+  name: "Leila Photography",
+  shortName: "Leila",
+  city: "Valencia / Spain",
+  instagram: "@photographer_leila_",
+  instagramUrl: "https://www.instagram.com/photographer_leila_/",
 };
 
 const sessions: PhotoSession[] = [
-  { id: "session-01", number: "01", title: "Soft Family Morning", note: "light, skin, closeness", location: "Baltic coast", year: "2026", count: 10 },
-  { id: "session-02", number: "02", title: "Golden Shore", note: "quiet portraits near the water", location: "Sopot", year: "2026", count: 10 },
-  { id: "session-03", number: "03", title: "Garden Story", note: "green silence and natural direction", location: "Wrocław", year: "2026", count: 10 },
-  { id: "session-04", number: "04", title: "Black & White Archive", note: "gesture, grain, private emotion", location: "Gdańsk", year: "2026", count: 10 },
-  { id: "session-05", number: "05", title: "Beach Family Essay", note: "warm evening documentary", location: "Baltic coast", year: "2026", count: 10 },
-  { id: "session-06", number: "06", title: "Minimal Couple Study", note: "soft distance, calm composition", location: "Wrocław", year: "2026", count: 10 },
-  { id: "session-07", number: "07", title: "Editorial Portrait", note: "dark styling and controlled gaze", location: "Studio", year: "2026", count: 10 },
-  { id: "session-08", number: "08", title: "White Coast", note: "movement, wind, ceremony light", location: "Baltic coast", year: "2026", count: 10 },
+  { id: "session-01", number: "01", title: "Couples by the Sea", note: "soft coastline, warm skin, quiet closeness", location: "Valencia", year: "2026", count: 10 },
+  { id: "session-02", number: "02", title: "Golden Portraits", note: "sunset portraits and feminine calm", location: "Spain", year: "2026", count: 10 },
+  { id: "session-03", number: "03", title: "Garden Story", note: "green light and natural emotion", location: "Valencia", year: "2026", count: 10 },
+  { id: "session-04", number: "04", title: "Black & White Memory", note: "grain, gesture and private emotion", location: "Spain", year: "2026", count: 10 },
+  { id: "session-05", number: "05", title: "Family at the Coast", note: "family tenderness in evening light", location: "Valencia", year: "2026", count: 10 },
+  { id: "session-06", number: "06", title: "Minimal Couple Study", note: "distance, touch and timeless style", location: "Spain", year: "2026", count: 10 },
+  { id: "session-07", number: "07", title: "Portrait of Leila", note: "the photographer behind the frame", location: "Valencia", year: "2026", count: 10 },
+  { id: "session-08", number: "08", title: "White Coast", note: "movement, wind and ceremony light", location: "Spain", year: "2026", count: 10 },
 ];
 
 const ratioPattern: PhotoRatio[] = ["portrait", "tall", "square", "landscape", "portrait", "wide", "tall", "portrait", "landscape", "square"];
@@ -78,24 +79,24 @@ const photos: Photo[] = sessions.flatMap((session) =>
 );
 
 const services = [
-  ["01", "Family Stories", "A calm visual archive for families who want photographs that feel intimate, composed and alive.", "Home, beach or outdoor session · gentle direction · private online gallery"],
-  ["02", "Couple Sessions", "Quiet portraits for two people, built around movement, distance, touch and atmosphere.", "Mood direction · location planning · editorial rhythm"],
-  ["03", "Portraits", "Minimal portraits for women, artists and private clients who need presence without overproduction.", "Studio or natural light · styling notes · soft retouching"],
-  ["04", "Private Events", "Discreet coverage for small weddings, family celebrations and private gatherings.", "Limited bookings · documentary coverage · curated selection"],
+  ["01", "Portraits", "Soft, minimal portraits for women who want to feel natural, elegant and present in the frame.", "Valencia or nearby locations · light direction · refined edit · private gallery"],
+  ["02", "Couples", "Intimate couple sessions built around real emotion, movement, touch and quiet cinematic light.", "Beach, city or home session · styling notes · natural posing · full gallery"],
+  ["03", "Families", "Family stories with warmth and space: children, parents, small gestures and honest connection.", "Outdoor or home session · gentle direction · timeless color · web and print files"],
+  ["04", "Private Stories", "Small celebrations, personal milestones and lifestyle shoots photographed with discretion and taste.", "Limited bookings · documentary rhythm · curated delivery · Instagram-ready selection"],
 ];
 
 const process = [
-  ["Conversation", "We define the feeling first: place, light, people, pace and what should remain private."],
-  ["Direction", "Before the shoot, you receive simple guidance for clothing, timing and location."],
-  ["Session", "The shoot is calm and directed. The frame is controlled, but people are not forced to perform."],
-  ["Editing", "The final gallery is edited with restraint: natural skin, cinematic color, no artificial polish."],
-  ["Delivery", "You receive a private gallery with selected high-resolution images and web-ready versions."],
+  ["Message", "You send a short note on Instagram: who you want to photograph, the city, the date and the feeling you want."],
+  ["Planning", "Leila helps choose the place, timing and simple clothing direction so the session already has a visual mood."],
+  ["Shooting", "The session is calm and gently directed. No forced posing, no pressure, just real emotion with better composition."],
+  ["Editing", "The gallery is edited with soft color, natural skin and a timeless visual style that does not feel artificial."],
+  ["Delivery", "You receive a private gallery with selected images ready for personal use, Instagram and print."],
 ];
 
 const testimonials = [
-  ["The photographs look like us, only quieter and more beautiful. Nothing felt staged, but every frame feels intentional.", "Marta", "family session"],
-  ["I usually hate being photographed. This was calm, direct and surprisingly easy. The final images feel expensive without looking forced.", "Anna", "portrait session"],
-  ["There is a very specific taste in the work. Soft, cinematic, but still real. That is exactly what we wanted.", "Julia & Adam", "couple session"],
+  ["The photos feel very real, but also elegant. We did not feel like we had to perform for the camera.", "Client review", "couple session"],
+  ["Leila sees small emotions and turns them into something soft and timeless. The gallery felt very personal.", "Client review", "family story"],
+  ["I usually feel uncomfortable in portraits, but this session was calm and easy. The result looks like me, only better lit.", "Client review", "portrait session"],
 ];
 
 function getRatioClass(ratio: PhotoRatio) {
@@ -181,10 +182,10 @@ export default function Page() {
             <a href="#top" className="font-medium tracking-[0.32em]">{studio.name}</a>
             <div className="hidden items-center gap-8 md:flex">
               <a href="#gallery" className="transition hover:text-[#8c6f45]">Gallery</a>
+              <a href="#about" className="transition hover:text-[#8c6f45]">About</a>
               <a href="#services" className="transition hover:text-[#8c6f45]">Services</a>
-              <a href="#process" className="transition hover:text-[#8c6f45]">Process</a>
             </div>
-            <a href="#booking" className="border border-[#17130f] px-4 py-2 transition hover:bg-[#17130f] hover:text-[#f4efe6]">Booking</a>
+            <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="border border-[#17130f] px-4 py-2 transition hover:bg-[#17130f] hover:text-[#f4efe6]">DM to book</a>
           </nav>
         </header>
 
@@ -192,13 +193,13 @@ export default function Page() {
           <div className="mx-auto grid max-w-[1560px] gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:gap-16">
             <div className="flex flex-col justify-between gap-14 lg:min-h-[calc(100vh-9rem)]">
               <div data-reveal>
-                <p className="mb-6 max-w-[34rem] text-[10px] uppercase leading-5 tracking-[0.34em] text-[#6f6255]">Family stories · portraits · couples · private events</p>
-                <h1 className="font-editorial max-w-[52rem] text-[clamp(4.3rem,14vw,13rem)] leading-[0.78]">Quiet images with a cinematic pulse.</h1>
+                <p className="mb-6 max-w-[34rem] text-[10px] uppercase leading-5 tracking-[0.34em] text-[#6f6255]">Photographer in Spain · Valencia · portraits · couples · families</p>
+                <h1 className="font-editorial max-w-[52rem] text-[clamp(4.3rem,14vw,13rem)] leading-[0.78]">Real emotions, timeless style.</h1>
               </div>
               <div data-reveal>
-                <p className="max-w-[34rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">Photography for people who want atmosphere, intimacy and taste — not a loud performance for the camera.</p>
+                <p className="max-w-[34rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">Soft cinematic photography in Valencia for people who want honest emotion, natural direction and images that feel elegant without being staged.</p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col">
-                  <a href="#booking" className="inline-flex min-h-12 items-center justify-center bg-[#17130f] px-7 text-[10px] uppercase tracking-[0.28em] text-[#f4efe6] transition hover:bg-[#3a2b1e]">Request a session</a>
+                  <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center bg-[#17130f] px-7 text-[10px] uppercase tracking-[0.28em] text-[#f4efe6] transition hover:bg-[#3a2b1e]">Book via Instagram</a>
                   <a href="#gallery" className="inline-flex min-h-12 items-center justify-center border border-[#17130f]/25 px-7 text-[10px] uppercase tracking-[0.28em] transition hover:border-[#17130f]">View gallery</a>
                 </div>
               </div>
@@ -206,16 +207,16 @@ export default function Page() {
 
             <div data-reveal className="grid gap-4 sm:grid-cols-[1.1fr_0.7fr] lg:min-h-[calc(100vh-9rem)]">
               <div className="relative min-h-[520px] overflow-hidden bg-[#d9c9b4] sm:min-h-[620px] lg:min-h-0">
-                <Image src="/photos/session-01/01.jpg" alt="Hero photography frame" fill priority sizes="(max-width: 768px) 100vw, 58vw" className="object-cover" />
+                <Image src="/photos/session-01/01.jpg" alt="Leila Photography couple session in Valencia" fill priority sizes="(max-width: 768px) 100vw, 58vw" className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/34 via-transparent to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 flex justify-between gap-6 text-[#f4efe6]">
-                  <p className="max-w-[14rem] text-[10px] uppercase leading-5 tracking-[0.28em]">Soft Family Morning</p>
-                  <p className="hidden text-[10px] uppercase tracking-[0.28em] sm:block">2026</p>
+                  <p className="max-w-[14rem] text-[10px] uppercase leading-5 tracking-[0.28em]">Portraits · Couples · Families</p>
+                  <p className="hidden text-[10px] uppercase tracking-[0.28em] sm:block">Valencia</p>
                 </div>
               </div>
               <div className="hidden grid-rows-[0.74fr_1fr] gap-4 sm:grid">
-                <div className="relative overflow-hidden bg-[#d9c9b4]"><Image src="/photos/session-07/01.jpg" alt="Editorial portrait frame" fill sizes="24vw" className="object-cover" /></div>
-                <div className="relative overflow-hidden bg-[#d9c9b4]"><Image src="/photos/session-08/01.jpg" alt="White coast couple frame" fill sizes="24vw" className="object-cover" /></div>
+                <div className="relative overflow-hidden bg-[#d9c9b4]"><Image src="/photos/session-07/01.jpg" alt="Leila portrait" fill sizes="24vw" className="object-cover" /></div>
+                <div className="relative overflow-hidden bg-[#d9c9b4]"><Image src="/photos/session-08/01.jpg" alt="Couple session on the coast" fill sizes="24vw" className="object-cover" /></div>
               </div>
             </div>
           </div>
@@ -223,7 +224,7 @@ export default function Page() {
 
         <section className="border-y border-[#17130f]/10 px-4 py-5 sm:px-6 lg:px-10">
           <div className="mx-auto grid max-w-[1560px] gap-4 text-[10px] uppercase leading-5 tracking-[0.28em] text-[#6f6255] sm:grid-cols-3">
-            <p>Private galleries</p><p className="sm:text-center">Soft direction · refined edit</p><p className="sm:text-right">Limited sessions per month</p>
+            <p>Valencia · Spain</p><p className="sm:text-center">Real emotions · timeless style</p><p className="sm:text-right">Booking open · DM to book</p>
           </div>
         </section>
 
@@ -232,16 +233,16 @@ export default function Page() {
             <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
               <div data-reveal>
                 <p className="mb-5 text-[10px] uppercase tracking-[0.34em] text-[#8c6f45]">Gallery</p>
-                <h2 className="font-editorial max-w-[58rem] text-[clamp(3.7rem,9vw,9rem)] leading-[0.82]">Eight stories. One visual language.</h2>
+                <h2 className="font-editorial max-w-[58rem] text-[clamp(3.7rem,9vw,9rem)] leading-[0.82]">Soft stories from Spain.</h2>
               </div>
-              <p data-reveal className="max-w-[39rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">Browse the full archive by session. The layout keeps a magazine rhythm on desktop and a clean, comfortable scroll on mobile.</p>
+              <p data-reveal className="max-w-[39rem] text-[15px] leading-7 text-[#4f463d] sm:text-[17px] sm:leading-8">Browse the archive by session. Each story has its own rhythm, but the visual language stays calm, emotional and timeless.</p>
             </div>
 
             <div className="sticky top-[65px] z-40 -mx-4 mt-10 border-y border-[#17130f]/10 bg-[#f4efe6]/90 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10">
               <div className="mx-auto flex max-w-[1560px] items-center gap-3 overflow-x-auto hide-scrollbar">
                 <button type="button" onClick={() => setActiveFilter("all")} aria-pressed={activeFilter === "all"} className={`shrink-0 border px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition ${activeFilter === "all" ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>All / {photos.length}</button>
                 {sessions.map((session) => (
-                  <button key={session.id} type="button" onClick={() => setActiveFilter(session.id)} aria-pressed={activeFilter === session.id} className={`shrink-0 border px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition ${activeFilter === session.id ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>Session {session.number}</button>
+                  <button key={session.id} type="button" onClick={() => setActiveFilter(session.id)} aria-pressed={activeFilter === session.id} className={`shrink-0 border px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition ${activeFilter === session.id ? "border-[#17130f] bg-[#17130f] text-[#f4efe6]" : "border-[#17130f]/16 text-[#4f463d] hover:border-[#17130f]/60"}`}>Story {session.number}</button>
                 ))}
               </div>
             </div>
@@ -249,7 +250,7 @@ export default function Page() {
             <div className="mt-8 flex flex-col gap-2 border-b border-[#17130f]/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-[10px] uppercase tracking-[0.28em] text-[#8c6f45]">{activeSession ? activeSession.note : "full archive"}</p>
-                <h3 className="font-editorial mt-2 text-[clamp(2.6rem,6vw,5.8rem)] leading-[0.9]">{activeSession ? activeSession.title : "All sessions"}</h3>
+                <h3 className="font-editorial mt-2 text-[clamp(2.6rem,6vw,5.8rem)] leading-[0.9]">{activeSession ? activeSession.title : "All stories"}</h3>
               </div>
               <p className="text-[10px] uppercase leading-5 tracking-[0.24em] text-[#6f6255]">{visiblePhotos.length} frames · tap to open</p>
             </div>
@@ -277,26 +278,27 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="bg-[#17130f] px-4 py-20 text-[#f4efe6] sm:px-6 sm:py-28 lg:px-10 lg:py-36">
-          <div className="mx-auto grid max-w-[1560px] gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+        <section id="about" className="bg-[#17130f] px-4 py-20 text-[#f4efe6] sm:px-6 sm:py-28 lg:px-10 lg:py-36">
+          <div className="mx-auto grid max-w-[1560px] gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-20">
             <div data-reveal>
-              <div className="relative aspect-[4/5] overflow-hidden bg-[#3a342d]"><Image src="/photos/session-04/01.jpg" alt="Black and white archive frame" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover opacity-90" /></div>
-              <p className="mt-5 max-w-[26rem] text-[10px] uppercase leading-5 tracking-[0.28em] text-[#d9c9b4]">The frame should feel directed, but never artificial.</p>
+              <div className="relative aspect-[4/5] overflow-hidden bg-[#3a342d]"><Image src="/photos/session-07/01.jpg" alt="Leila photographer portrait" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover opacity-95" /></div>
+              <p className="mt-5 max-w-[26rem] text-[10px] uppercase leading-5 tracking-[0.28em] text-[#d9c9b4]">Photographer in Valencia · portraits · couples · families</p>
             </div>
             <div data-reveal className="flex flex-col justify-center">
-              <p className="mb-6 text-[10px] uppercase tracking-[0.34em] text-[#c7ad82]">Philosophy</p>
-              <h2 className="font-editorial text-[clamp(3.6rem,8vw,8.5rem)] leading-[0.84]">Real emotion. Precise composition.</h2>
+              <p className="mb-6 text-[10px] uppercase tracking-[0.34em] text-[#c7ad82]">About Leila</p>
+              <h2 className="font-editorial text-[clamp(3.6rem,8vw,8.5rem)] leading-[0.84]">Real emotion without forced posing.</h2>
               <div className="mt-10 grid gap-7 text-[16px] leading-8 text-[#d9c9b4] sm:text-[18px] sm:leading-9">
-                <p>The work is built around atmosphere, not performance. The camera follows real closeness, but the light, rhythm and composition are carefully controlled.</p>
-                <p>Every session is treated like a small visual story: soft direction, human skin, natural gestures and a final gallery that feels private rather than produced.</p>
+                <p>Leila is a photographer based in Valencia, Spain, working with portraits, couples and families. Her work is built around soft direction, natural gestures and a timeless visual style.</p>
+                <p>The sessions are calm and personal. The goal is not to make people look different, but to show their closeness, beauty and emotion with better light, better timing and better composition.</p>
               </div>
+              <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="mt-10 inline-flex min-h-12 w-fit items-center justify-center border border-[#f4efe6]/25 px-7 text-[10px] uppercase tracking-[0.28em] transition hover:border-[#f4efe6]">Open Instagram</a>
             </div>
           </div>
         </section>
 
         <section id="services" className="px-4 py-20 sm:px-6 sm:py-28 lg:px-10 lg:py-36">
           <div className="mx-auto max-w-[1560px]">
-            <div data-reveal className="mb-14 max-w-[58rem]"><p className="mb-5 text-[10px] uppercase tracking-[0.34em] text-[#8c6f45]">Services</p><h2 className="font-editorial text-[clamp(3.6rem,8vw,8.5rem)] leading-[0.84]">A studio menu without noise.</h2></div>
+            <div data-reveal className="mb-14 max-w-[58rem]"><p className="mb-5 text-[10px] uppercase tracking-[0.34em] text-[#8c6f45]">Services</p><h2 className="font-editorial text-[clamp(3.6rem,8vw,8.5rem)] leading-[0.84]">Portraits, couples and families in Valencia.</h2></div>
             <div className="border-t border-[#17130f]/15">
               {services.map(([index, title, description, details]) => (
                 <article key={title} data-reveal className="grid gap-6 border-b border-[#17130f]/15 py-8 md:grid-cols-[0.18fr_0.82fr_1fr] md:gap-10 md:py-12">
@@ -311,7 +313,7 @@ export default function Page() {
 
         <section id="process" className="bg-[#e8dece] px-4 py-20 sm:px-6 sm:py-28 lg:px-10 lg:py-36">
           <div className="mx-auto grid max-w-[1560px] gap-12 lg:grid-cols-[0.74fr_1.26fr] lg:gap-20">
-            <div data-reveal className="lg:sticky lg:top-32 lg:self-start"><p className="mb-5 text-[10px] uppercase tracking-[0.34em] text-[#8c6f45]">Process</p><h2 className="font-editorial text-[clamp(3.4rem,7vw,7.5rem)] leading-[0.84]">Calm for the client. Control behind the frame.</h2></div>
+            <div data-reveal className="lg:sticky lg:top-32 lg:self-start"><p className="mb-5 text-[10px] uppercase tracking-[0.34em] text-[#8c6f45]">Process</p><h2 className="font-editorial text-[clamp(3.4rem,7vw,7.5rem)] leading-[0.84]">Easy booking. Calm session. Timeless gallery.</h2></div>
             <div className="space-y-4">
               {process.map(([title, text], index) => (
                 <article key={title} data-reveal className="grid gap-5 border border-[#17130f]/10 bg-[#f4efe6]/45 p-5 sm:p-7 md:grid-cols-[0.18fr_0.82fr]">
@@ -326,12 +328,12 @@ export default function Page() {
         <section className="px-4 py-20 sm:px-6 sm:py-28 lg:px-10 lg:py-36">
           <div className="mx-auto max-w-[1560px]">
             <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-end">
-              <div data-reveal><p className="mb-5 text-[10px] uppercase tracking-[0.34em] text-[#8c6f45]">Trust</p><h2 className="font-editorial text-[clamp(3.4rem,7vw,7.5rem)] leading-[0.84]">The best proof is recognition.</h2></div>
-              <p data-reveal className="max-w-[38rem] text-[16px] leading-8 text-[#4f463d] sm:text-[18px] sm:leading-9">The goal is not to make people look different. The goal is to make them feel seen with better light, better timing and better taste.</p>
+              <div data-reveal><p className="mb-5 text-[10px] uppercase tracking-[0.34em] text-[#8c6f45]">Reviews</p><h2 className="font-editorial text-[clamp(3.4rem,7vw,7.5rem)] leading-[0.84]">The best proof is recognition.</h2></div>
+              <p data-reveal className="max-w-[38rem] text-[16px] leading-8 text-[#4f463d] sm:text-[18px] sm:leading-9">The photographs should still feel like you — only softer, calmer and more timeless.</p>
             </div>
             <div className="mt-14 grid gap-4 lg:grid-cols-3">
               {testimonials.map(([quote, name, context]) => (
-                <article key={name} data-reveal className="flex min-h-[330px] flex-col justify-between border border-[#17130f]/12 bg-[#efe7da] p-7">
+                <article key={context} data-reveal className="flex min-h-[330px] flex-col justify-between border border-[#17130f]/12 bg-[#efe7da] p-7">
                   <p className="font-editorial text-[2.25rem] leading-[1.03] tracking-[-0.05em] text-[#261c14]">“{quote}”</p>
                   <div className="mt-10 border-t border-[#17130f]/12 pt-5"><p className="text-[11px] uppercase tracking-[0.28em]">{name}</p><p className="mt-2 text-[10px] uppercase tracking-[0.24em] text-[#8c6f45]">{context}</p></div>
                 </article>
@@ -344,21 +346,21 @@ export default function Page() {
           <div className="mx-auto max-w-[1560px] bg-[#17130f] px-5 py-10 text-[#f4efe6] sm:px-8 sm:py-14 lg:px-14 lg:py-20">
             <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
               <div data-reveal>
-                <p className="mb-6 text-[10px] uppercase tracking-[0.34em] text-[#c7ad82]">Private booking</p>
-                <h2 className="font-editorial text-[clamp(3.8rem,9vw,9rem)] leading-[0.82]">Tell me what should feel personal.</h2>
-                <p className="mt-8 max-w-[34rem] text-[16px] leading-8 text-[#d9c9b4] sm:text-[18px] sm:leading-9">Send a short note about the session, people and city. You will receive a personal reply with availability and the next step.</p>
+                <p className="mb-6 text-[10px] uppercase tracking-[0.34em] text-[#c7ad82]">Booking open</p>
+                <h2 className="font-editorial text-[clamp(3.8rem,9vw,9rem)] leading-[0.82]">Write to Leila and choose your date.</h2>
+                <p className="mt-8 max-w-[34rem] text-[16px] leading-8 text-[#d9c9b4] sm:text-[18px] sm:leading-9">Send a direct message on Instagram with the session type, city, preferred date and the atmosphere you want. Leila will reply with availability and next steps.</p>
               </div>
               <div data-reveal className="flex flex-col justify-end gap-5 border border-[#f4efe6]/15 p-6 sm:p-8">
-                <p className="text-[10px] uppercase leading-5 tracking-[0.28em] text-[#c7ad82]">Booking is private and handled by email.</p>
-                <a href={`mailto:${studio.email}?subject=Photography request`} className="inline-flex min-h-14 items-center justify-center bg-[#f4efe6] px-7 text-[10px] uppercase tracking-[0.3em] text-[#17130f] transition hover:bg-[#c7ad82]">Write for availability</a>
-                <div className="grid gap-3 text-[10px] uppercase tracking-[0.26em] text-[#d9c9b4]"><a href={`mailto:${studio.email}`}>{studio.email}</a><a href="https://instagram.com" target="_blank" rel="noreferrer">{studio.instagram}</a><p>{studio.city}</p></div>
+                <p className="text-[10px] uppercase leading-5 tracking-[0.28em] text-[#c7ad82]">DM to book · portraits · couples · families</p>
+                <a href={studio.instagramUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center bg-[#f4efe6] px-7 text-[10px] uppercase tracking-[0.3em] text-[#17130f] transition hover:bg-[#c7ad82]">Book via Instagram</a>
+                <div className="grid gap-3 text-[10px] uppercase tracking-[0.26em] text-[#d9c9b4]"><a href={studio.instagramUrl} target="_blank" rel="noreferrer">{studio.instagram}</a><p>{studio.city}</p></div>
               </div>
             </div>
           </div>
         </section>
 
         <footer className="px-4 py-8 sm:px-6 lg:px-10">
-          <div className="mx-auto flex max-w-[1560px] flex-col gap-5 border-t border-[#17130f]/12 pt-6 text-[10px] uppercase tracking-[0.24em] text-[#6f6255] md:flex-row md:items-center md:justify-between"><p>© 2026 {studio.name}</p><p>{studio.city}</p></div>
+          <div className="mx-auto flex max-w-[1560px] flex-col gap-5 border-t border-[#17130f]/12 pt-6 text-[10px] uppercase tracking-[0.24em] text-[#6f6255] md:flex-row md:items-center md:justify-between"><p>© 2026 {studio.name}</p><a href={studio.instagramUrl} target="_blank" rel="noreferrer">{studio.instagram}</a><p>{studio.city}</p></div>
         </footer>
 
         {activePhoto ? (
@@ -368,7 +370,7 @@ export default function Page() {
             <button type="button" onClick={(event) => { event.stopPropagation(); movePhoto(1); }} className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 border border-[#f4efe6]/20 px-4 py-5 text-[10px] uppercase tracking-[0.26em] transition hover:border-[#f4efe6] md:block">Next</button>
             <figure onClick={(event) => event.stopPropagation()} className="grid max-h-[92vh] w-full max-w-[1180px] gap-5">
               <div className="relative h-[70vh] max-h-[760px] w-full overflow-hidden"><Image src={activePhoto.src} alt={`${activePhoto.sessionTitle} full preview`} fill sizes="100vw" className="object-contain" priority /></div>
-              <figcaption className="flex flex-col gap-2 border-t border-[#f4efe6]/15 pt-4 sm:flex-row sm:items-end sm:justify-between"><div><h3 className="font-editorial text-4xl leading-none">{activePhoto.sessionTitle}</h3><p className="mt-2 text-[10px] uppercase tracking-[0.26em] text-[#d9c9b4]">Session {activePhoto.sessionNumber} · Frame {String(activePhoto.frame).padStart(2, "0")}</p></div><p className="text-[10px] uppercase tracking-[0.26em] text-[#c7ad82]">{activePhoto.location} · {activePhoto.year}</p></figcaption>
+              <figcaption className="flex flex-col gap-2 border-t border-[#f4efe6]/15 pt-4 sm:flex-row sm:items-end sm:justify-between"><div><h3 className="font-editorial text-4xl leading-none">{activePhoto.sessionTitle}</h3><p className="mt-2 text-[10px] uppercase tracking-[0.26em] text-[#d9c9b4]">Story {activePhoto.sessionNumber} · Frame {String(activePhoto.frame).padStart(2, "0")}</p></div><p className="text-[10px] uppercase tracking-[0.26em] text-[#c7ad82]">{activePhoto.location} · {activePhoto.year}</p></figcaption>
               <div className="grid grid-cols-2 gap-3 md:hidden"><button type="button" onClick={() => movePhoto(-1)} className="border border-[#f4efe6]/20 px-4 py-4 text-[10px] uppercase tracking-[0.26em]">Prev</button><button type="button" onClick={() => movePhoto(1)} className="border border-[#f4efe6]/20 px-4 py-4 text-[10px] uppercase tracking-[0.26em]">Next</button></div>
             </figure>
           </div>
